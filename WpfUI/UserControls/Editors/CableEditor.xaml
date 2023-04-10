@@ -211,7 +211,7 @@
                     <!--Per phase Label-->
                     <TextBlock 
                             Margin="0 5"
-                            Text=" /ph" Grid.Row="4" Grid.Column="1"
+                            Text=" /ph = " 
                             FontWeight="SemiBold">
                         <TextBlock.Style>
                             <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
@@ -220,6 +220,22 @@
                                         <Setter Property="Foreground" Value="Transparent"/>
                                     </DataTrigger>
                                     
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <TextBlock 
+                            Margin="0 5"
+                            Text="{Binding PowerCable.TotalCables}"
+                        d:Text="6"
+                            FontWeight="SemiBold">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding PowerCable.Is1C}" Value="False">
+                                        <Setter Property="Foreground" Value="Transparent"/>
+                                    </DataTrigger>
+
                                 </Style.Triggers>
                             </Style>
                         </TextBlock.Style>
@@ -235,7 +251,7 @@
                        ToolTip="{Binding PowerCable.DeratedAmpsToolTip}"
                        ToolTipService.InitialShowDelay="50">
 
-                    <TextBlock.Style>
+                    <!--<TextBlock.Style>
                         <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding PowerCable.IsValid}" Value="False">
@@ -243,7 +259,7 @@
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
-                    </TextBlock.Style>
+                    </TextBlock.Style>-->
                 </TextBlock>
 
 

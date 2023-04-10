@@ -1,5 +1,4 @@
 ﻿using EDTLibrary.Models.Cables;
-using EDTLibrary.Models.Cables;
 using EDTLibrary.ProjectSettings;
 using System;
 using System.Collections.Generic;

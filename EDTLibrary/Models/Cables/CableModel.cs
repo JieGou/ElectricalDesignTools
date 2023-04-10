@@ -1,5 +1,6 @@
 ﻿
 using EdtLibrary.Commands;
+using EdtLibrary.Selectors;
 using EdtLibrary.Settings;
 using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData;
@@ -376,6 +377,26 @@ public class CableModel : ICable
     }
     private int _qtyParallel;
 
+    private void CalculateTotalCables()
+    {
+        if (TypeModel.ConductorQty == WireCountSelector.GetWireCount((IPowerConsumer)Load)) {
+            TotalCables = QtyParallel;
+        }
+        else {
+            TotalCables = QtyParallel * TypeModel.ConductorQty * WireCountSelector.GetWireCount((IPowerConsumer)Load);
+        }
+    }
+
+
+
+    public int TotalCables
+    {
+        get { return _totalCables; }
+        set { _totalCables = value; }
+    }
+    private int _totalCables;
+
+
     private bool _calculatingQty;
     private bool _calculatingAmpacity;
     public string Size
@@ -656,31 +677,36 @@ public class CableModel : ICable
             //Voltage Rating
             if (cableVoltageClass == cableType.VoltageRating && this.UsageType == cableType.UsageType) {
 
+                
                 //Power
                 if (cableType.UsageType == CableUsageTypes.Power.ToString()) {
-
-                    // 3C
-                    if (voltagePhase == 3 && (cableType.ConductorQty == 3)) {
-                        TypeList.Add(cableType);
-                        if (DestinationModel.Type == DteqTypes.DPN.ToString() && load.VoltageType.Voltage == 208) {
-                            TypeList.Remove(cableType);
-                        }
-                    }
-
-                    // 1C
-                    if (voltagePhase == 3 && (cableType.ConductorQty == 1)) {
+                    if (cableType.ConductorQty == WireCountSelector.GetWireCount((IPowerConsumer)load) ||
+                        cableType.ConductorQty == 1) {
                         TypeList.Add(cableType);
                     }
+                  
+                    //// 3C
+                    //if (voltagePhase == 3 && (cableType.ConductorQty == 3)) {
+                    //    TypeList.Add(cableType);
+                    //    if (DestinationModel.Type == DteqTypes.DPN.ToString() && load.VoltageType.Voltage == 208) {
+                    //        TypeList.Remove(cableType);
+                    //    }
+                    //}
 
-                    // 4C, 208V Panels
-                    if (DestinationModel.Type == DteqTypes.DPN.ToString() && load.VoltageType.Voltage == 208 && cableType.ConductorQty == 4) {
-                        TypeList.Add(cableType);
-                    }
+                    //// 1C
+                    //if (voltagePhase == 3 && (cableType.ConductorQty == 1)) {
+                    //    TypeList.Add(cableType);
+                    //}
 
-                    // 2C, 1-phase loads
-                    if (voltagePhase == 1 && cableType.ConductorQty == 2) {
-                        TypeList.Add(cableType);
-                    } 
+                    //// 4C, 208V Panels
+                    //if (DestinationModel.Type == DteqTypes.DPN.ToString() && load.VoltageType.Voltage == 208 && cableType.ConductorQty == 4) {
+                    //    TypeList.Add(cableType);
+                    //}
+
+                    //// 2C, 1-phase loads
+                    //if (voltagePhase == 1 && cableType.ConductorQty == 2) {
+                    //    TypeList.Add(cableType);
+                    //} 
                 }
             }
 
@@ -1121,6 +1147,8 @@ public class CableModel : ICable
     //Ampacity
     public string CalculateAmpacity(ICableUser load)
     {
+        CalculateTotalCables();
+
         _calculatingAmpacity = true;
         IsValid = true;
         Load = load;

@@ -81,6 +81,7 @@ internal class CecCableLengthValidator : ICableLengthValidator
             }
 
         }
+
         if (isValid == false) {
 
             if (sendAlerts == true) {

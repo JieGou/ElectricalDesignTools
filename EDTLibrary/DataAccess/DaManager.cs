@@ -251,7 +251,7 @@ public class DaManager {
     {
         if (DaManager.GettingRecords == false) {
             //prjDb.UpsertRecord<CableModel>((CableModel)source, GlobalConfig.CableTable, NoSaveLists.PowerCableNoSaveList);
-            PrjDb.UpdateRecordSaveList<CableModel>((CableModel)source, GlobalConfig.CableTable, SaveLists.CableSaveList);
+            PrjDb.UpsertRecord<CableModel>((CableModel)source, GlobalConfig.CableTable, NoSaveLists.PowerCableNoSaveList);
         }
     }
 

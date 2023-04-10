@@ -893,7 +893,7 @@ namespace EDTLibrary.Models.Loads
                 UndoManager.Lock(this, nameof(StandAloneStarterBool));
 
                 ProtectionDeviceManager.SetProtectionDeviceType(this);
-                ProtectionDeviceManager.SetPdTripAndStarterSize(ProtectionDevice);
+                ProtectionDeviceManager.SetProtectionDevice(ProtectionDevice);
 
                 if (Lcs!=null) {
                         Lcs.Type = ComponentFactory.GetLcsType(this);
@@ -1015,7 +1015,7 @@ namespace EDTLibrary.Models.Loads
                 if (EdtAppSettings.Default.AutoSize_CircuitComponents) {
                     foreach (var comp in CctComponents) {
                         if (comp.IsCalculationLocked == false) {
-                            ProtectionDeviceManager.SetPdTripAndStarterSize(comp);
+                            ProtectionDeviceManager.SetProtectionDevice(comp);
                         }
                     }
                 }
@@ -1160,7 +1160,7 @@ namespace EDTLibrary.Models.Loads
                 var tag = Tag;
                 if (ProtectionDevice != null) {
                     if (EdtAppSettings.Default.AutoSize_ProtectionDevice) {
-                        ProtectionDeviceManager.SetPdTripAndStarterSize(ProtectionDevice);
+                        ProtectionDeviceManager.SetProtectionDevice(ProtectionDevice);
                         ProtectionDevice.AIC = ProtectionDeviceAicCalculator.GetMinimumBreakerAicRating(this); 
                     }
                 }

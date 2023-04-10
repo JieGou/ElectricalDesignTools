@@ -5,7 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              
-                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:app="clr-namespace:WpfUI"
+
+             
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              
              
@@ -114,7 +117,8 @@
         </Grid>
 
         <!--Main Grid-->
-        <Grid Background="{StaticResource PageBackground}" >
+        <Grid Background="{StaticResource PageBackground}" 
+              ShowGridLines="False">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="*"/>
@@ -160,7 +164,7 @@
                 <!--Cable List-->
                 <syncfusion:SfDataGrid x:Name="dgdCableList"
                                    Grid.Row="1" Grid.RowSpan="2"
-                                       Grid.Column="3" 
+                                   Grid.Column="3" 
                                    ItemsSource="{Binding ListManager.CableList, Mode=TwoWay, IsAsync=True}"
                                    SelectedItem="{Binding SelectedCable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                    SelectedItems="{Binding SelectedCables, UpdateSourceTrigger=PropertyChanged}"
@@ -296,16 +300,22 @@
                                                MaximumWidth="200"
                                                />
 
+                        <syncfusion:GridTextColumn MappingName="ConductorQty"
+                                               HeaderText="Conductors"
+                                               Width="100"
+                                               UseBindingValue="True" 
+                                               FilterRowCondition="Equals"
+                                               ImmediateUpdateColumnFilter="True"/>
+                        
                         <syncfusion:GridTextColumn MappingName="QtyParallel"
                                                HeaderText="Qty in | |"
                                                Width="75"
                                                UseBindingValue="True" 
                                                FilterRowCondition="Equals"
                                                ImmediateUpdateColumnFilter="True"/>
-
-                        <syncfusion:GridTextColumn MappingName="ConductorQty"
-                                               HeaderText="Conductors"
-                                               Width="100"
+                        
+                        <syncfusion:GridTextColumn MappingName="TotalCables" HeaderText="Total&#x0a;Runs"
+                                               Width="75"
                                                UseBindingValue="True" 
                                                FilterRowCondition="Equals"
                                                ImmediateUpdateColumnFilter="True"/>
@@ -377,7 +387,7 @@
                 <Expander x:Name="propertyGridExpander"
                           Grid.Row="0"
                           Grid.Column="5"
-                          IsExpanded="True"
+                          IsExpanded="{Binding Source={x:Static app:AppSettings.Default}, Path=CableListViewPropertiesPaneVisibility, Mode=TwoWay}"
                           Margin="0"
                           Width="25"
                           Height="25"

@@ -106,7 +106,7 @@ public class ComponentFactory
             var load = (IPowerConsumer)componentUser;
             newComponent.Area = load.FedFrom.Area;
             newComponent.SequenceNumber = 0;
-            ProtectionDeviceManager.SetPdTripAndStarterSize(newComponent);
+            ProtectionDeviceManager.SetProtectionDevice(newComponent);
 
 
             if (load.FedFrom.Type == DteqTypes.SPL.ToString()) {

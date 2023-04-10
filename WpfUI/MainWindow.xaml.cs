@@ -186,6 +186,8 @@ public partial class MainWindow : MetroWindow
                 BinaryFormatter bin = new BinaryFormatter();
                 bin.Serialize(stream, ppDtos);
             }
+
+            AppSettings.Default.Save();
         }
 
         catch (IOException) {

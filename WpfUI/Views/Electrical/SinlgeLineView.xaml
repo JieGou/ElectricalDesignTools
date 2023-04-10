@@ -6,6 +6,8 @@
              xmlns:local="clr-namespace:WpfUI.Windows"
              mc:Ignorable="d"
              
+             xmlns:app="clr-namespace:WpfUI"
+             
              xmlns:settings="clr-namespace:WpfUI"
              
              
@@ -144,72 +146,80 @@
             </StackPanel>
         </Grid>
 
-        <Grid Background="{StaticResource PageBackground}"
-          ShowGridLines="False">
+        <Grid>
+            <!--Property Grid-->
+            <Expander x:Name="propertyGridExpander"
+                    IsExpanded="{Binding Source={x:Static app:AppSettings.Default}, Path=SingleLineViewPropertiesPaneVisibility, Mode=TwoWay}"
+                    Width="25"
+                    Height="25"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Right"
+                    ExpandDirection="Left"
+                    Panel.ZIndex="1"/>
+            <Grid Background="{StaticResource PageBackground}"
+                  ShowGridLines="False">
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="5"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="5"/>
-                <ColumnDefinition Width="175" />
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="310" x:Name="PropertyPaneColumn" />
-                <ColumnDefinition Width="1"/>
-            </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="5"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="175" />
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
 
-            <!--Dteq Tree-->
-            <GridSplitter Grid.Column="2"  HorizontalAlignment="Center" VerticalAlignment="Stretch"   
+                <!--Dteq Tree-->
+                <GridSplitter Grid.Column="2"  HorizontalAlignment="Center" VerticalAlignment="Stretch"   
                           Grid.Row="0" Grid.RowSpan="6"
                           Width="{StaticResource GridSplitterWidth}"
                           Background="Transparent"
                           Visibility="{Binding ElectricalViewGridSplitterVisibility}"
                           PreviewMouseLeftButtonUp="SaveGridWidth"/>
 
-            <!--Property Pane Splitter-->
-            <GridSplitter Grid.Column="5"  HorizontalAlignment="Center" VerticalAlignment="Stretch"   
+                <!--Property Pane Splitter-->
+                <GridSplitter Grid.Column="5"  HorizontalAlignment="Center" VerticalAlignment="Stretch"   
                           Grid.Row="0" Grid.RowSpan="6"
                           Width="{StaticResource GridSplitterWidth}"
                           Background="Transparent"
                           Visibility="{Binding ElectricalViewGridSplitterVisibility}"
                           PreviewMouseLeftButtonUp="SaveGridWidth"/>
 
-            <Button Content="|"
+                <Button Content="|"
                     Grid.Column="5"  HorizontalAlignment="Center" 
                     Grid.Row="0" Grid.RowSpan="6"
                     Height="75" Width="5"
                     Margin="0"
                     BorderBrush="Transparent"
-                    Click="GridSplitter_TogglePropertyPane"
                     BorderThickness="0 1 0 1"/>
 
-            <Grid Grid.Row="2" Grid.RowSpan="10" Grid.Column="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="8*"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="2*"/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
+                <Grid Grid.Row="2" Grid.RowSpan="10" Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="8*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
 
 
-                <!--Tree View-->
+                    <!--Tree View-->
 
-                <controls:ClippingBorder BorderBrush="{StaticResource ControlBorder}" BorderThickness="1"
+                    <controls:ClippingBorder BorderBrush="{StaticResource ControlBorder}" BorderThickness="1"
                     Grid.Row="0"
                     Grid.Column="0" 
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="stretch"
                     CornerRadius="{StaticResource ControlCornerRadius}"
                     >
-                    <syncfusion:SfTreeView x:Name="sfTreeView" 
+                        <syncfusion:SfTreeView x:Name="sfTreeView" 
                                 Grid.Row="0"
                                 Grid.Column="0" 
                                 HorizontalAlignment="Stretch"
@@ -238,69 +248,69 @@
                                 PreviewMouseLeftButtonDown="sfTreeView_PreviewMouseLeftButtonDown"
                                 PreviewDrop="sfTreeView_PreviewDrop"
                                 >
-                        <interactivity:Interaction.Triggers>
-                            <interactivity:EventTrigger EventName="Loaded">
-                                <behaviors:DteqTreeViewDagDropBehavior TargetObject="{Binding ElementName=listViewLoads}"/>
-                            </interactivity:EventTrigger>
-                        </interactivity:Interaction.Triggers>
-                        <syncfusion:SfTreeView.Resources>
+                            <interactivity:Interaction.Triggers>
+                                <interactivity:EventTrigger EventName="Loaded">
+                                    <behaviors:DteqTreeViewDagDropBehavior TargetObject="{Binding ElementName=listViewLoads}"/>
+                                </interactivity:EventTrigger>
+                            </interactivity:Interaction.Triggers>
+                            <syncfusion:SfTreeView.Resources>
 
-                        </syncfusion:SfTreeView.Resources>
+                            </syncfusion:SfTreeView.Resources>
 
-                        <syncfusion:SfTreeView.ItemTemplate>
-                            <DataTemplate>
-                                <Grid x:Name="grid">
-                                    <Grid Grid.Row="0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="auto" />
-                                            <ColumnDefinition Width="auto" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <Grid>
-                                            <iconControls:ErrorIcon
+                            <syncfusion:SfTreeView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid x:Name="grid">
+                                        <Grid Grid.Row="0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto" />
+                                                <ColumnDefinition Width="auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid>
+                                                <iconControls:ErrorIcon
                                                 Visibility="{Binding IsValid, 
                                                 Converter={StaticResource BoolToVisInvert}, 
                                                 ConverterParameter=Inverted}"
                                                 ToolTip="{Binding IsInvalidMessage}"
                                                 ToolTipService.InitialShowDelay="250"/>
 
-                                        </Grid>
-                                        <Grid Grid.Column="1">
-                                            <!--<Image Source="{Binding ImageIcon}"
+                                            </Grid>
+                                            <Grid Grid.Column="1">
+                                                <!--<Image Source="{Binding ImageIcon}"
                                             VerticalAlignment="Center"
                                             HorizontalAlignment="Left"
                                             Height="16"
                                             Width="16"
                                             Visibility="Collapsed"/>-->
-                                        </Grid>
-                                        <Grid 
+                                            </Grid>
+                                            <Grid 
                                             Grid.Column="2"
                                             Margin="1,0,0,0"
                                             VerticalAlignment="Center">
-                                            <TextBlock 
+                                                <TextBlock 
                                                 Text="{Binding Tag}"
                                                 FontSize="12"
                                                 VerticalAlignment="Center"
                                                 HorizontalAlignment="Left"
                                             />
+                                            </Grid>
                                         </Grid>
                                     </Grid>
-                                </Grid>
-                            </DataTemplate>
-                        </syncfusion:SfTreeView.ItemTemplate>
-                    </syncfusion:SfTreeView>
-                </controls:ClippingBorder>
+                                </DataTemplate>
+                            </syncfusion:SfTreeView.ItemTemplate>
+                        </syncfusion:SfTreeView>
+                    </controls:ClippingBorder>
 
 
-                <orderControls:LoadOrderingControl Grid.Row="1"/>
+                    <orderControls:LoadOrderingControl Grid.Row="1"/>
 
-                <TextBlock Text="Selected Loads"
+                    <TextBlock Text="Selected Loads"
                             Grid.Row="2"
                             FontSize="12"
                             FontWeight="SemiBold"
                             />
 
-                <ListBox 
+                    <ListBox 
                      
                     ItemsSource="{Binding SelectedLoads}"
                     Grid.Row="3" Grid.Column="0"
@@ -309,28 +319,28 @@
                     Margin="0 10" 
                     />
 
-                <TextBlock x:Name="txtMousePos" Text="Mouse Pos"
+                    <TextBlock x:Name="txtMousePos" Text="Mouse Pos"
                            Grid.Row="4"
                            FontSize="12"
                            FontWeight="SemiBold"
                            Margin="0 0 0 10"/>
 
 
-            </Grid>
+                </Grid>
 
-            <!--Top Data-->
-            <dteqViewers:DteqSummary3RowViewer Grid.Column="3" 
+                <!--Top Data-->
+                <dteqViewers:DteqSummary3RowViewer Grid.Column="3" 
                                                Grid.ColumnSpan="2"
                                                DataContext="{Binding SelectedDteq}"
                                                Visibility="Collapsed"/>
 
-            <Button Content="Create Drawing"
+                <Button Content="Create Drawing"
                     Grid.Column="3" Grid.Row="1" Margin="10" 
                     HorizontalAlignment="Left"
                     Command="{Binding DrawSingleLineAcadCommand}" 
                     />
 
-            <syncfusion:SfBusyIndicator x:Name="busyIndicator"
+                <syncfusion:SfBusyIndicator x:Name="busyIndicator"
                                         Grid.Row="2" Grid.RowSpan="2"
                                         Grid.Column="3" Grid.ColumnSpan="2"
                                         IsBusy="{Binding IsBusy, UpdateSourceTrigger=PropertyChanged}"
@@ -344,30 +354,30 @@
                                         Panel.ZIndex="1"/>
 
 
-            <!--Sinlge Line Grid-->
-            <Grid Grid.Row="2" Grid.RowSpan="2"
+                <!--Sinlge Line Grid-->
+                <Grid Grid.Row="2" Grid.RowSpan="2"
                   Grid.Column="3" Grid.ColumnSpan="2"
                   ClipToBounds="False"
                   >
 
 
-                <Grid.ContextMenu>
-                    <ContextMenu>
+                    <Grid.ContextMenu>
+                        <ContextMenu>
 
-                    </ContextMenu>
-                </Grid.ContextMenu>
-
-
+                        </ContextMenu>
+                    </Grid.ContextMenu>
 
 
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="auto"/>
 
-                </Grid.RowDefinitions>
 
-                <!--Sinlge Line-->
-                <Border BorderBrush="{StaticResource ControlBorder}" BorderThickness="1"
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="auto"/>
+
+                    </Grid.RowDefinitions>
+
+                    <!--Sinlge Line-->
+                    <Border BorderBrush="{StaticResource ControlBorder}" BorderThickness="1"
                         Background="White"
                         CornerRadius="{StaticResource ControlCornerRadius}"
                         Grid.Row="0" Grid.RowSpan="2"
@@ -376,7 +386,7 @@
                         VerticalAlignment="Stretch"
                         ClipToBounds="False">
 
-                    <ScrollViewer Template="{DynamicResource ScrollViewerTemplate1}" x:Name="singleLine_ScrollViewer_H"
+                        <ScrollViewer Template="{DynamicResource ScrollViewerTemplate1}" x:Name="singleLine_ScrollViewer_H"
                                   VerticalScrollBarVisibility="Auto"
                                   HorizontalScrollBarVisibility="Disabled"
                                   VerticalAlignment="Stretch" 
@@ -385,7 +395,7 @@
                                   
                                   ClipToBounds="False">
 
-                        <Grid x:Name="grdSingleLine"
+                            <Grid x:Name="grdSingleLine"
                               Background="Transparent"
                       
                               MouseDown="Grid_MouseDown" 
@@ -395,18 +405,18 @@
                               
                               ClipToBounds="False">
 
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
 
-                            <!--Drag Selection -->
-                            <Canvas x:Name="dragSelectionCanvas"
+                                <!--Drag Selection -->
+                                <Canvas x:Name="dragSelectionCanvas"
                                     Visibility="Collapsed"
                                     Panel.ZIndex="99"
                                     
                                     ClipToBounds="False">
-                                <Border x:Name="dragSelectionBorder"
+                                    <Border x:Name="dragSelectionBorder"
                                         BorderBrush="Blue"
                                         BorderThickness="1"
                                         Background="LightBlue"
@@ -414,10 +424,10 @@
                                         Opacity="0.5"
                                         ClipToBounds="False"
                                 />
-                            </Canvas>
+                                </Canvas>
 
-                            <!--Dteq Graphic-->
-                            <singleLineSubViews:SL_DteqGraphicView 
+                                <!--Dteq Graphic-->
+                                <singleLineSubViews:SL_DteqGraphicView 
                                 DataContext="{Binding SelectedDteq}"
                                 Background="{StaticResource SingleLineBackground}"
                                 UseLayoutRounding="False"
@@ -430,8 +440,8 @@
                                 ClipToBounds="False"
                                 Panel.ZIndex="1"/>
 
-                            <!--Loads-->
-                            <controls:ListViewEx 
+                                <!--Loads-->
+                                <controls:ListViewEx 
                                 x:Name="listViewLoads"
                                 Style="{DynamicResource ListViewStyle_SingleLineLoadTemplate}"
                                 Background="{StaticResource SingleLineBackground}"
@@ -471,18 +481,18 @@
                                       
                                 >
 
-                                <ListView.Resources>
+                                    <ListView.Resources>
 
-                                    <!--Selected Template-->
-                                    <ControlTemplate x:Key="SelectedTemplate" TargetType="controls:ListViewItemEx"
+                                        <!--Selected Template-->
+                                        <ControlTemplate x:Key="SelectedTemplate" TargetType="controls:ListViewItemEx"
                                                      >
-                                        <Border BorderThickness="0" Background="{StaticResource SingleLineSelectionBackground}" 
+                                            <Border BorderThickness="0" Background="{StaticResource SingleLineSelectionBackground}" 
                                                 VerticalAlignment="Top"
                                                 HorizontalAlignment="Left" 
                                                 CornerRadius="7" 
                                                 ClipToBounds="False">
 
-                                            <singleLineSubViews:SL_LoadGraphicView x:Name="ItemTemplate"
+                                                <singleLineSubViews:SL_LoadGraphicView x:Name="ItemTemplate"
                                                                                    DataContext="{Binding}" 
                                                                                    EquipmentSelected="LoadGraphicView_EquipmentSelected"
                                                                                    EquipmentCableSelected="LoadGraphicView_EquipmentCableSelected"
@@ -490,77 +500,77 @@
                                                                                    ClipToBounds="False"
                                                                                    />
 
-                                            <!--MouseDown="LoadGraphicViewListViewItem_MouseDown"
+                                                <!--MouseDown="LoadGraphicViewListViewItem_MouseDown"
                                                                                    MouseUp="LoadGraphicViewListViewItem_MouseUp"
                                                                                    MouseMove="LoadGraphicViewListViewItem_MouseMove"/>-->
-                                        </Border>
+                                            </Border>
 
-                                    </ControlTemplate>
+                                        </ControlTemplate>
 
-                                    <Style TargetType="controls:ListViewItemEx">
-                                        <Setter Property="Template">
-                                            <Setter.Value>
+                                        <Style TargetType="controls:ListViewItemEx">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
 
-                                                <!--Normal Template-->
-                                                <ControlTemplate TargetType="controls:ListViewItemEx">
-                                                    <Border BorderThickness="0" Background="Transparent" HorizontalAlignment="Left"  
+                                                    <!--Normal Template-->
+                                                    <ControlTemplate TargetType="controls:ListViewItemEx">
+                                                        <Border BorderThickness="0" Background="Transparent" HorizontalAlignment="Left"  
                                                             ClipToBounds="False">
 
-                                                        <singleLineSubViews:SL_LoadGraphicView 
+                                                            <singleLineSubViews:SL_LoadGraphicView 
                                                             x:Name="ItemTemplate"
                                                             DataContext="{Binding}" 
                                                             EquipmentSelected="LoadGraphicView_EquipmentSelected"
                                                             EquipmentCableSelected="LoadGraphicView_EquipmentCableSelected"
                                                             ClipToBounds="False"                 
                                                                                     />
-                                                    </Border>
-                                                </ControlTemplate>
+                                                        </Border>
+                                                    </ControlTemplate>
 
-                                            </Setter.Value>
-                                        </Setter>
-                                        <Style.Triggers>
-                                            <MultiTrigger>
-                                                <MultiTrigger.Conditions>
-                                                    <Condition Property="IsSelected" Value="true" />
-                                                </MultiTrigger.Conditions>
-                                                <Setter Property="Template" Value="{StaticResource SelectedTemplate}" />
-                                            </MultiTrigger>
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Style.Triggers>
+                                                <MultiTrigger>
+                                                    <MultiTrigger.Conditions>
+                                                        <Condition Property="IsSelected" Value="true" />
+                                                    </MultiTrigger.Conditions>
+                                                    <Setter Property="Template" Value="{StaticResource SelectedTemplate}" />
+                                                </MultiTrigger>
 
-                                        </Style.Triggers>
-                                    </Style>
-                                </ListView.Resources>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ListView.Resources>
 
-                                <ListView.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <VirtualizingStackPanel  Orientation="Horizontal"
+                                    <ListView.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <VirtualizingStackPanel  Orientation="Horizontal"
                                                                  Margin="0 -2 0 0"
                                                                  ClipToBounds="False" 
                                                                  
                                                 />
 
-                                    </ItemsPanelTemplate>
-                                </ListView.ItemsPanel>
+                                        </ItemsPanelTemplate>
+                                    </ListView.ItemsPanel>
 
-                            </controls:ListViewEx>
+                                </controls:ListViewEx>
 
-                        </Grid>
-                    </ScrollViewer>
+                            </Grid>
+                        </ScrollViewer>
 
 
-                </Border>
+                    </Border>
 
-                <!--External ScrollViewer Horizontal-->
-                <Border BorderBrush="{StaticResource ControlBorder}" BorderThickness="1 0 1 1"
+                    <!--External ScrollViewer Horizontal-->
+                    <Border BorderBrush="{StaticResource ControlBorder}" BorderThickness="1 0 1 1"
                         Grid.Row="2" Grid.RowSpan="2"
                         Grid.Column="5"
                         VerticalAlignment="Bottom"
                         Visibility="Visible">
-                    <Border.CornerRadius>
-                        <CornerRadius BottomLeft="{StaticResource ControlCornerRadiusValue}"
+                        <Border.CornerRadius>
+                            <CornerRadius BottomLeft="{StaticResource ControlCornerRadiusValue}"
                                       BottomRight="{StaticResource ControlCornerRadiusValue}"/>
-                    </Border.CornerRadius>
+                        </Border.CornerRadius>
 
-                    <ScrollViewer x:Name="ExternalScrollViewer_Horizontal"
+                        <ScrollViewer x:Name="ExternalScrollViewer_Horizontal"
                                   Grid.Row="3" Grid.RowSpan="2"
                                   VerticalScrollBarVisibility="Disabled"
                                   HorizontalScrollBarVisibility="Visible"
@@ -570,28 +580,31 @@
                                   ScrollChanged="ExternalScrollViewer_ScrollChanged"
                                   >
 
-                        <!--The width of this border is calculated in code behind to be the same as the loadsListView
+                            <!--The width of this border is calculated in code behind to be the same as the loadsListView
                             so that the external scrollviewer can be synchronized with the loadsListView-->
-                        <Border x:Name="listViewLoadsBorderWidth"/>
+                            <Border x:Name="listViewLoadsBorderWidth"/>
 
-                    </ScrollViewer>
-                </Border>
+                        </ScrollViewer>
+                    </Border>
 
-            </Grid>
+                </Grid>
 
-            <!--Property Editor-->
-            <Border BorderBrush="Black" BorderThickness="1"
+                <!--Property Editor-->
+                <Border BorderBrush="Black" BorderThickness="1"
                     Background="{StaticResource BackgroundLight}"  
                     Grid.Row="2" Grid.RowSpan="2"
                     Grid.Column="6"
-                    Padding="1 0 0 0">
-          
-                <editors:EqPropertyPane  
-                    Grid.Row="2" Grid.RowSpan="2"
-                   
-                    Grid.Column="6"/>
-            </Border>
+                    Padding="1 0 0 0"
+                    Visibility="{Binding ElementName=propertyGridExpander, Path=IsExpanded, 
+                                               Converter={StaticResource BoolToVisInvert},
+                                               ConverterParameter=Normal}">
 
+                    <editors:EqPropertyPane Grid.Row="2" Grid.RowSpan="2"
+                                            Grid.Column="6"/>
+                </Border>
+
+               
+            </Grid>
         </Grid>
     </DockPanel>
 </UserControl>    

@@ -32,7 +32,7 @@ public partial class SinlgeLineView : UserControl
     {
         InitializeComponent();
 
-        _propertyPaneWidth = PropertyPaneColumn.Width.Value;
+        //_propertyPaneWidth = PropertyPaneColumn.Width.Value;
         if (vm!=null) {
             vm.DteqCollectionView = new ListCollectionView(vm.ViewableDteqList);
         }
@@ -598,13 +598,13 @@ public partial class SinlgeLineView : UserControl
     double _propertyPaneWidth = 0;
     private void GridSplitter_TogglePropertyPane(object sender, RoutedEventArgs e)
     {
-        var width = PropertyPaneColumn.Width.Value == 0 ? _propertyPaneWidth : 0;
-        PropertyPaneColumn.Width = new GridLength(width);
+        //var width = PropertyPaneColumn.Width.Value == 0 ? _propertyPaneWidth : 0;
+        //PropertyPaneColumn.Width = new GridLength(width);
     }
 
     private void SaveGridWidth(object sender, MouseButtonEventArgs e)
     {
-        _propertyPaneWidth = PropertyPaneColumn.Width.Value;    
+        //_propertyPaneWidth = PropertyPaneColumn.Width.Value;    
     }
 
     private void sfTreeView_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)

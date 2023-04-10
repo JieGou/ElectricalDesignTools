@@ -227,5 +227,41 @@ namespace WpfUI {
                 this["LoadListPropertyPaneWidth"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool CableListViewPropertiesPaneVisibility {
+            get {
+                return ((bool)(this["CableListViewPropertiesPaneVisibility"]));
+            }
+            set {
+                this["CableListViewPropertiesPaneVisibility"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool LostListViewPropertiesPaneVisibility {
+            get {
+                return ((bool)(this["LostListViewPropertiesPaneVisibility"]));
+            }
+            set {
+                this["LostListViewPropertiesPaneVisibility"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool SingleLineViewPropertiesPaneVisibility {
+            get {
+                return ((bool)(this["SingleLineViewPropertiesPaneVisibility"]));
+            }
+            set {
+                this["SingleLineViewPropertiesPaneVisibility"] = value;
+            }
+        }
     }
 }

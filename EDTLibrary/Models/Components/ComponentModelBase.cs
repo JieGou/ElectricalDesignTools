@@ -509,7 +509,7 @@ public abstract class ComponentModelBase : IComponentEdt
             TripAmps = DataTableSearcher.GetDisconnectFuse(load);
         }
         else {
-            ProtectionDeviceManager.SetPdTripAndStarterSize(this);
+            ProtectionDeviceManager.SetProtectionDevice(this);
         }
 
         if (Type == CctComponentTypes.UDS.ToString() || Type == CctComponentTypes.FDS.ToString()) {

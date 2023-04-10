@@ -100,6 +100,8 @@ namespace WpfUI
         }
         static void MainHandler(object sender, UnhandledExceptionEventArgs args)
         {
+            AppSettings.Default.Save();
+
             string message = "An unhandled error has occured";
             if (args.IsTerminating) {
                 message = "An unhandled error has occured and the application will now close";

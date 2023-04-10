@@ -1027,7 +1027,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 ProtectionDeviceManager.SetProtectionDeviceType(this);
                 if (EdtAppSettings.Default.AutoSize_ProtectionDevice) {
                     if (IsCalculationLocked == false) {
-                        ProtectionDeviceManager.SetPdTripAndStarterSize(ProtectionDevice);
+                        ProtectionDeviceManager.SetProtectionDevice(ProtectionDevice);
                         if (ProtectionDevice != null) {
                             ProtectionDevice.AIC = ProtectionDeviceAicCalculator.GetMinimumBreakerAicRating(this);
                         } 

@@ -823,7 +823,7 @@ public class LoadListViewModel : ElectricalViewModelBase, INotifyDataErrorInfo
         {
             _dteqGridRight = value;
             AppSettings.Default.DteqGridRight = _dteqGridRight.Value;
-            AppSettings.Default.Save();
+            //AppSettings.Default.Save();
         }
     }
 
@@ -836,17 +836,17 @@ public class LoadListViewModel : ElectricalViewModelBase, INotifyDataErrorInfo
             double oldBottom = _dteqGridBottom.Value;
             _dteqGridBottom = value;
             AppSettings.Default.DteqGridBottom = _dteqGridBottom.Value;
-            AppSettings.Default.Save();
+            //AppSettings.Default.Save();
 
             //DteqGridHeight = 275; //Uncomment to Position, Comment to Lock
 
             DteqGridHeight += (_dteqGridBottom.Value - oldBottom);
             AppSettings.Default.DteqGridHeight = DteqGridHeight;
-            AppSettings.Default.Save();
+            //AppSettings.Default.Save();
 
             LoadGridHeight -= (_dteqGridBottom.Value - oldBottom);
             AppSettings.Default.LoadGridHeight = LoadGridHeight;
-            AppSettings.Default.Save();
+            //AppSettings.Default.Save();
         }
     }
     public double DteqGridHeight { get; set; }
@@ -860,7 +860,7 @@ public class LoadListViewModel : ElectricalViewModelBase, INotifyDataErrorInfo
         {
             _loadGridRight = value;
             AppSettings.Default.LoadGridRight = _loadGridRight.Value;
-            AppSettings.Default.Save();
+            //AppSettings.Default.Save();
         }
     }
 
@@ -873,13 +873,13 @@ public class LoadListViewModel : ElectricalViewModelBase, INotifyDataErrorInfo
             double oldTop = _loadGridTop.Value;
             _loadGridTop = value;
             AppSettings.Default.LoadGridTop = _loadGridTop.Value;
-            AppSettings.Default.Save();
+            //AppSettings.Default.Save();
 
             //LoadGridHeight = 350; //Uncomment to position, Comment to Lock
 
             LoadGridHeight -= (_loadGridTop.Value - oldTop);
             AppSettings.Default.LoadGridHeight = LoadGridHeight;
-            AppSettings.Default.Save();
+            //AppSettings.Default.Save();
         }
     }
 
@@ -891,7 +891,7 @@ public class LoadListViewModel : ElectricalViewModelBase, INotifyDataErrorInfo
         {
             _loadGridBottom = value;
             AppSettings.Default.LoadGridBottom = _loadGridBottom.Value;
-            AppSettings.Default.Save();
+            //AppSettings.Default.Save();
         }
     }
     private double _loadGridHeight;
@@ -902,7 +902,7 @@ public class LoadListViewModel : ElectricalViewModelBase, INotifyDataErrorInfo
         {
             _loadGridHeight = value;
             AppSettings.Default.LoadGridBottom = _loadGridBottom.Value;
-            AppSettings.Default.Save();
+            //AppSettings.Default.Save();
         }
     }
 
@@ -931,7 +931,7 @@ public class LoadListViewModel : ElectricalViewModelBase, INotifyDataErrorInfo
         {
             _propertyPaneWidth = value;
             AppSettings.Default.LoadListPropertyPaneWidth = _propertyPaneWidth.Value;
-            AppSettings.Default.Save();
+            //AppSettings.Default.Save();
         }
     }
 

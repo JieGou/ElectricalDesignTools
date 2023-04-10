@@ -14,7 +14,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              
-             Background="#FFC5BCCA">
+             Background="{StaticResource PageBackground}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
@@ -23,6 +23,7 @@
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
+            <RowDefinition Height="10"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
@@ -30,34 +31,99 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <ListBox ItemsSource="{Binding RacewayGraphics}"
-                 x:Name="list"
-                 Grid.Row="0" Grid.Column="0"
-                 DisplayMemberPath="Tag"
-                 Width="100"
-                 HorizontalAlignment="Left"
-                 VerticalAlignment="Top"/>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            
+            <StackPanel Orientation="Horizontal"
+                                    Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="3">
+
+                <!--Cable Types-->
+                <DataGrid Width="auto" MinHeight="200" d:Width="200"
+                                      Margin="10 10 0 10"
+                                      FontWeight="Normal"
+                                      Grid.Row="5" Grid.Column="0"
+                                      ItemsSource="{Binding TypeManager.PowerCableTypes}"
+                                      AutoGenerateColumns="False"
+                                      SelectedItem="{Binding SelectedCableType}"
+                                      RowHeaderWidth="0"
+                                      SelectionMode="Single"  
+                                      >
+                    <DataGrid.Columns>
+
+                        <DataGridTextColumn Header="Cable Types In Library"
+                                                Binding="{Binding Path=Type}" 
+                                                MinWidth="175"
+                                                IsReadOnly="True">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Left" />
+                                    <Setter Property="Margin" Value="10 0"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                            <DataGridTextColumn.EditingElementStyle>
+                                <Style TargetType="TextBox">
+                                    <Setter Property="TextAlignment" Value="Left" />
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                    <Setter Property="Margin" Value="10 0"/>
+                                </Style>
+                            </DataGridTextColumn.EditingElementStyle>
+                        </DataGridTextColumn>
+
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <!--Cable Sizes-->
+                <DataGrid IsReadOnly="False" MinColumnWidth="50"
+                              Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2"
+                              MinWidth="50"
+                              MinHeight="400"
+                              Margin="0 10 10 10"
+                              FontWeight="Normal"
+                              d:Width="175" d:Height="300"
+                              MaxHeight="700"
+                              RowHeaderWidth="0"
+                              SelectionUnit="Cell"
+                              SelectionMode="Single"
+                              ItemsSource="{Binding Path=SelectedCableSizes, Mode=TwoWay, 
+                                            UpdateSourceTrigger=Explicit, IsAsync=True}"
+                              AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <!--Type-->
+                        <!--<DataGridTextColumn Header="Type"
+                                                Binding="{Binding Path=Type}"
+                                                MinWidth="175"
+                                                IsReadOnly="True"/>-->
+
+                        <!--Size-->
+                        <DataGridTextColumn Header="Size"
+                                                Binding="{Binding Path=Size}"
+                                                MinWidth="85" 
+                                                IsReadOnly="True"/>
+
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+        </Grid>
         
-        <TextBox Text="{Binding ElementName=list, Path=SelectedItem.X, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                 Grid.Row="1" Grid.Column="0"
-                 />
-
-        <TextBox Text="{Binding ElementName=list, Path=SelectedItem.Y, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                 Grid.Row="2" Grid.Column="0"
-                 />
-        
-        <TextBox Text="{Binding ElementName=list, Path=SelectedItem.Diameter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                 Grid.Row="3" Grid.Column="0"
-                 />
-
-
         <ItemsControl ItemsSource="{Binding RacewayGraphics, UpdateSourceTrigger=PropertyChanged}"
-                      Grid.Row="0" Grid.Column="2"
+                      Grid.Row="1" Grid.Column="2"
                       Width="500"
                       d:Width="400"
                       d:Height="250"
-                      
-                      Background="White"
+                      Background="{StaticResource ControlBackground}"
                       BorderBrush="Black"
                       BorderThickness="1">
 
@@ -91,7 +157,7 @@
                                ToolTip="{Binding Tag}" ToolTipService.InitialShowDelay="50"
                              />
                 </DataTemplate>
-                
+
             </ItemsControl.Resources>
 
             <ItemsControl.ItemContainerStyle>
@@ -106,5 +172,5 @@
 
 
     </Grid>
-    
+
 </UserControl>

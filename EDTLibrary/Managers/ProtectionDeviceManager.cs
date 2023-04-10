@@ -15,6 +15,7 @@ using EDTLibrary.Models.Equipment;
 using EDTLibrary.Settings;
 using EdtLibrary.Calculators.TransformerPd;
 using EdtLibrary.Models.Components.ProtectionDevices;
+using EDTLibrary.Models.Components.ProtectionDevices;
 
 namespace EDTLibrary.Managers;
 public class ProtectionDeviceManager
