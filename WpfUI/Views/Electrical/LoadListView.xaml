@@ -4,6 +4,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              
+             xmlns:app="clr-namespace:WpfUI"
+
+             
              xmlns:local="clr-namespace:WpfUI.Views"
              xmlns:root="clr-namespace:WpfUI"
              
@@ -172,7 +175,7 @@
                     <ColumnDefinition Width="5"/>
                     <ColumnDefinition Width="*"/> <!--dataGrid-->
                     <ColumnDefinition Width="5"/>
-                    <ColumnDefinition Width="{Binding PropertyPaneWidth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    <ColumnDefinition Width="auto"
                                       MinWidth="25" MaxWidth="550"/> <!--propertyGrid-->
                     <ColumnDefinition Width="1"/>
                 </Grid.ColumnDefinitions>
@@ -1068,17 +1071,7 @@
                                SelectionChanged="dgdAssignedLoads_SelectionChanged_1"  
                                PreviewKeyDown="dgdAssignedLoads_PreviewKeyDown_1" PasteGridCellContent="dgdAssignedLoads_PasteGridCellContent"
                                >
-                            <syncfusion:SfDataGrid.Resources>
-                                <Style TargetType="syncfusion:GridFilterControl">
-                                    <Setter Property="FontSize" Value="12" />
-                                    <Setter Property="FontWeight" Value="Normal" />
-                                    <Setter Property="FilterPopupWidth" Value="250"/>
-                                    <Setter Property="FilterPopupHeight" Value="250"/>
-                                    <Setter Property="MinWidth" Value="150"/>
-                                    <Setter Property="MinHeight" Value="150"/>
-                                </Style>
-                            </syncfusion:SfDataGrid.Resources>
-
+                            
                             <!--<syncfusion:SfDataGrid.ContextMenu>
                                 <ContextMenu>
                                  
@@ -1196,7 +1189,7 @@
                                 <syncfusion:GridComboBoxColumn HeaderText="Fed From" MappingName="FedFrom"
                                                Width="85"
                                                AllowEditing="True"
-                                               AllowFiltering="True"
+                                               AllowFiltering="False"
                                                ItemsSource="{Binding Path=DataContext.ListManager.IDteqList, 
                                                             RelativeSource={RelativeSource Mode=FindAncestor, 
                                                             AncestorType={x:Type Window}}}"
@@ -1211,7 +1204,7 @@
                                                >
                                 <syncfusion:GridComboBoxColumn.CellTemplate>
                                     <DataTemplate>
-                                        <!--Needs to be FedFromTag because the column display value doesn't update on multichange whent the binding is FedFrom.Tag-->
+                                        <!--Needs to be FedFromTag because the column display value doesn't update on multichange when the binding is FedFrom.Tag-->
                                         <TextBlock Text="{Binding FedFromTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                TextAlignment="Left"
                                                Padding="5 0 0 0"/>
@@ -1560,7 +1553,8 @@
                 <Expander x:Name="propertyGridExpander"
                           Grid.Row="2"
                           Grid.Column="1" Grid.ColumnSpan="10"
-                          IsExpanded="{Binding IsPropertyPaneExpanded}"
+                          IsExpanded="{Binding Source={x:Static app:AppSettings.Default}, 
+                                               Path=LoadListViewPropertiesPaneVisibility, Mode=TwoWay}"
                           Margin="0 5 0 0"
                           VerticalAlignment="Top"
                           HorizontalAlignment="Right"
@@ -1607,7 +1601,7 @@
                 <!--Below Dteq Grid-->
                 <GridSplitter  Grid.Row="2" Grid.ColumnSpan="5" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"   
                            Height="{StaticResource GridSplitterWidth}"
-                           Background="{StaticResource GridSplitterColor}"
+                           Background="Transparent"
                            ShowsPreview="False"/>
 
                 <!--Above Load Grid-->

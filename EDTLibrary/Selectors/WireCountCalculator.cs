@@ -12,6 +12,7 @@ internal class WireCountSelector
 {
     internal static int GetWireCount(IPowerConsumer eq)
     {
+        if (eq.VoltageType == null) return 0;
         int wireCount = 0;
         if (eq.VoltageType.Voltage == 208 && eq.VoltageType.Phase == 3)
         {

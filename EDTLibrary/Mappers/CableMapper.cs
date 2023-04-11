@@ -25,6 +25,7 @@ public class CableMapper
             Type = cable.TypeModel.Type;
             UsageType = cable.UsageType;
             QtyParallel = cable.QtyParallel;
+            TotalRuns = cable.TotalCables;
             ConductorQty = cable.ConductorQty;
             Size = "'" + cable.Size; //  the ' is for excel formatting
             VoltageClass = cable.VoltageRating;
@@ -54,6 +55,7 @@ public class CableMapper
     public string Type { get; set; }
     public string UsageType { get; set; }
     public int QtyParallel { get; set; }
+    public int TotalRuns { get; set; }
     public int ConductorQty { get; set; }
     public string Size { get; set; }
     public double VoltageClass { get; set; }

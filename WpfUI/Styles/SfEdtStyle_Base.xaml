@@ -17,8 +17,14 @@
 
     <sf:SortDirectionToVisibilityConverter x:Key="sortDirectionToVisibilityConverter" />
     <sf:SortDirectionToWidthConverter x:Key="sortDirectionToWidthConverter" />
+    <sfgrid:BoolToVisiblityConverter x:Key="VisiblityConverter"/>
 
-    
+    <sfgrid:BoolToVisiblityConverter x:Key="boolToVisiblityConverter"/>
+    <sfgrid:ReverseVisibilityConverter x:Key="reverseVisibilityConverter"/>
+    <sfgrid:ResourceNameConverter x:Key="resourceNameConverter"/>
+    <sfgrid:AdvancedFiltersButtonVisibiltyConverter x:Key="advancedFilterButtonVisibilityConverter"/>
+    <sfgrid:FilteredFromCheckVisibilityConverter x:Key="filteredFromCheckVisibilityConverter"/>
+
     
     <Style TargetType="sf:SfDataGrid">
         <Setter Property="BorderBrush" Value="{StaticResource ControlBorder}"/>
@@ -30,6 +36,10 @@
         <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}" />
         <Setter Property="Background" Value="{DynamicResource Darkest}" />
     </Style>
+
+    
+    
+   
 
     <!--Header Cell with sort Arrow in upper center-->
     <DataTemplate x:Key="startExpanderTemplate">
@@ -64,9 +74,6 @@
             </DataTrigger>
         </DataTemplate.Triggers>
     </DataTemplate>
-   
-    <sfgrid:BoolToVisiblityConverter x:Key="VisiblityConverter"/>
-    
     
     <Style TargetType="sf:GridHeaderCellControl">
         <Setter Property="Background" Value="{DynamicResource Darkest}" />
@@ -678,6 +685,450 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
+    <!--<Style x:Key="ButtonFocusVisual">
+        <Setter>
+            <Setter.Value>
+                <ControlTemplate>
+                    <Rectangle StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" StrokeThickness="1"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>-->
+        
+    <LinearGradientBrush x:Key="ButtonNormalBackground" EndPoint="0,1" StartPoint="0,0">
+        <GradientStop Color="#F3F3F3" Offset="0"/>
+        <GradientStop Color="#EBEBEB" Offset="0.5"/>
+        <GradientStop Color="#DDDDDD" Offset="0.5"/>
+        <GradientStop Color="#CDCDCD" Offset="1"/>
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="ButtonNormalBorder" Color="#FF707070"/>
+    <SolidColorBrush x:Key="FilterButtonNormalBorder" Color="#FFACACAC"/>
+    <SolidColorBrush x:Key="FilterButtonNormalBackground" Color="#FFE9E9E9"/>
+    <Style x:Key="clearFilterBtnStyle" TargetType="{x:Type Button}">
+        <Setter Property="FocusVisualStyle" Value="{StaticResource ButtonFocusVisual}"/>
+        <Setter Property="Background" Value="{StaticResource ButtonNormalBackground}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource ButtonNormalBorder}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="2"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid x:Name="PART_ClearButtonPresenter" Background="Transparent">
+                        <Border x:Name="PART_RootBorder" Background="Transparent" BorderBrush="Transparent" BorderThickness="1">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Path x:Name="PART_ClearButtonPath" Data="F0 M 0.33299977,11.255001 L 37.041462,11.255001 C 37.024662,11.5465 36.998562,11.833101 36.998562,12.127001 36.998562,16.835509 39.218578,21.028417 42.66,23.739322 L 32.947735,35.025546 32.947735,63.215999 21.340952,56.585582 21.340952,34.473741 M 1.2878267,4.0470002 L 39.629997,4.0470002 C 38.814808,5.2892774 38.189812,6.6619451 37.776917,8.1230001 L 1.2878267,8.1230001 C 0.57567823,8.1229997 2.9802322E-08,7.5472746 0,6.8362782 L 0,5.3361609 C 2.9802322E-08,4.622725 0.57567823,4.0469999 1.2878267,4.0470002 M 49.429409,3.7740004 L 46.442997,6.7597783 50.784157,11.100458 46.442997,15.441261 49.42902,18.426001 53.769852,14.085821 58.110516,18.426001 61.096996,15.440762 56.756023,11.100098 61.096996,6.7597783 58.111217,3.7740004 53.770287,8.1145711 M 53.78915,0 C 59.935287,0 64.920998,5.0389932 64.920998,11.25525 64.920998,17.469967 59.935287,22.509999 53.78915,22.509999 47.643211,22.509999 42.66,17.469967 42.66,11.25525 42.66,5.0389932 47.643211,0 53.78915,0 Z" Fill="Gray" Height="20" Margin="4,5,4,4" Stretch="Uniform" Width="20">
+                                    <Path.RenderTransform>
+                                        <TransformGroup>
+                                            <RotateTransform Angle="0"/>
+                                            <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                        </TransformGroup>
+                                    </Path.RenderTransform>
+                                </Path>
+                                <ContentPresenter Grid.Column="1" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" OpacityMask="{x:Null}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Grid>
+                        </Border>
+                        <Border BorderBrush="#FFB2B2B2" BorderThickness="0,1,0,0" Grid.ColumnSpan="2" Margin="30,0,0,0"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+        
+    <Style x:Key="AdvancedFiltersBtnStyle" TargetType="{x:Type Button}">
+        <Setter Property="FocusVisualStyle" Value="{StaticResource ButtonFocusVisual}"/>
+        <Setter Property="Background" Value="{StaticResource ButtonNormalBackground}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource ButtonNormalBorder}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="1"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid x:Name="PART_AdvancedFiltersButtonPresenter" Background="Transparent">
+                        <Border x:Name="PART_RootBorder" Background="Transparent" BorderBrush="Transparent" BorderThickness="1">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="29"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Border BorderBrush="#FFB2B2B2" BorderThickness="1,1,1,1" Grid.Column="0" Height="19" Visibility="{Binding FilteredFrom, ConverterParameter=reverse, Converter={StaticResource filteredFromCheckVisibilityConverter}, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type sfgrid:GridFilterControl}}}" Width="19"/>
+                                <Path x:Name="PART_FilteredFromCheck" Data="F0 M 12.4227,0.00012207 C 12.4867,0.126587 12.5333,0.274536 12.6787,0.321411 9.49199,3.24792 6.704,6.57336 4.69865,10.6827 4.04399,11.08 3.47066,11.5573 2.83199,11.9706 2.09467,10.2198 1.692,8.13196 3.8147E-06,7.33606 0.500004,6.79871 1.31733,6.05994 1.93067,6.2428 2.85999,6.51868 3.14,7.9054 3.60399,8.81604 5.80133,5.5387 8.53734,2.19202 12.4227,0.00012207 Z" Fill="Gray" Height="15" Margin="4,5,4,4" Stretch="Uniform" Visibility="{Binding FilteredFrom, ConverterParameter=reverse, Converter={StaticResource filteredFromCheckVisibilityConverter}, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type sfgrid:GridFilterControl}}}" Width="15">
+                                    <Path.RenderTransform>
+                                        <TransformGroup>
+                                            <RotateTransform Angle="0"/>
+                                            <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                        </TransformGroup>
+                                    </Path.RenderTransform>
+                                </Path>
+                                <ContentPresenter Grid.Column="1" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" OpacityMask="{x:Null}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                <Grid Grid.Column="2" Height="20" Margin="4,5,10,2" Width="20">
+                                    <Path x:Name="PART_ExpanderCellPath" Data="F1 M 335.667,278.908 L 335.667,268.241 343.425,273.574 335.667,278.908 Z" Fill="#FF444444" Height="10.667" RenderTransformOrigin="0.5,0.5" Stretch="Fill" Width="7.758">
+                                        <Path.RenderTransform>
+                                            <TransformGroup>
+                                                <RotateTransform Angle="0"/>
+                                            </TransformGroup>
+                                        </Path.RenderTransform>
+                                    </Path>
+                                </Grid>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    
+    
+    
+    <ControlTemplate x:Key="GridFilterControlTemplate1" TargetType="{x:Type sfgrid:GridFilterControl}">
+        <Border>
+            <Popup x:Name="PART_FilterPopup" AllowsTransparency="True" 
+                   IsOpen="{Binding IsOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" 
+                   Placement="Bottom" PlacementTarget="{Binding ElementName=PART_FilterToggleButton}" 
+                   StaysOpen="False">
+                <ContentControl ContentTemplate="{TemplateBinding ContentTemplate}">
+                    <Border x:Name="PART_FilterPopUpBorder" Background="{TemplateBinding Background}" 
+                            BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" 
+                            CornerRadius="{StaticResource ControlCornerRadius}" 
+                            Height="{Binding FilterPopupHeight, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" 
+                            Width="{Binding FilterPopupWidth, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <StackPanel>
+                                <sfgrid:SortButton x:Name="PART_SortAscendingButton" 
+                                                   Content="{TemplateBinding AscendingSortString}" 
+                                                   FontStretch="{TemplateBinding FontWeight}" 
+                                                   Foreground="{TemplateBinding Foreground}" 
+                                                   FontStyle="{TemplateBinding FontStyle}" 
+                                                   FontFamily="{TemplateBinding FontFamily}" 
+                                                   FontWeight="{TemplateBinding FontWeight}" 
+                                                   FontSize="{TemplateBinding FontSize}" 
+                                                   Visibility="{TemplateBinding SortOptionVisibility}">
+                                    <sfgrid:SortButton.Icon>
+                                        <Grid Height="20" Margin="1" Width="20">
+                                            <Path Data="F1 M 4.84775,5.78774 L 2.07043,5.78774 1.73962,6.55335 C 1.63162,6.80788 1.57816,7.01882 1.57816,7.18482 1.57816,7.40562 1.66666,7.56761 1.84509,7.67255 1.94934,7.73428 2.20578,7.78054 2.616,7.81123 L 2.616,8.02601 0,8.02601 0,7.81123 C 0.282684,7.76882 0.514404,7.65162 0.696686,7.46095 0.877777,7.26948 1.10159,6.87428 1.36856,6.27468 L 4.18106,0 4.29175,0 7.12778,6.44855 C 7.39856,7.05988 7.61987,7.44402 7.79443,7.60281 7.9259,7.72268 8.11081,7.79228 8.35031,7.81123 L 8.35031,8.02601 4.54697,8.02601 4.54697,7.81123 4.70322,7.81123 C 5.00925,7.81123 5.22269,7.76882 5.34644,7.68362 5.4324,7.62242 5.474,7.53321 5.474,7.41734 5.474,7.34762 5.46362,7.27601 5.44016,7.20242 5.4324,7.16787 5.37375,7.02281 5.26575,6.76748 L 4.84775,5.78774 M 4.65109,5.35869 L 3.47922,2.65041 2.27347,5.35869 4.65109,5.35869 Z" Fill="#FF5384B4" HorizontalAlignment="Left" Height="8.026" Margin="0,0.43,0,0" Stretch="Fill" VerticalAlignment="Top" Width="8.35"/>
+                                            <Path Data="F1 M 7.15628,9.88402 L 2.53391,17.3065 4.03137,17.3065 C 4.7384,17.3065 5.23325,17.2623 5.51575,17.1731 5.97534,17.0339 6.37122,16.778 6.70456,16.405 7.03653,16.0319 7.26697,15.5319 7.39456,14.9056 L 7.61987,14.9056 7.30081,17.7473 0.0990906,17.7473 4.72668,10.3131 3.56125,10.3131 C 3.10815,10.3131 2.81125,10.3268 2.668,10.3535 2.39722,10.4043 2.14334,10.5032 1.90506,10.6523 1.668,10.8014 1.47012,10.9994 1.31387,11.2467 1.15762,11.4941 1.03391,11.8072 0.945343,12.1861 L 0.73056,12.1861 0.945343,9.88402 7.15628,9.88402 Z" Fill="#FF8959AB" HorizontalAlignment="Left" Height="7.863" Margin="0.099,0,0,0.276" Stretch="Fill" VerticalAlignment="Bottom" Width="7.521"/>
+                                            <Path Data="F0 M 4.0409864,0 L 5.9969865,0 5.9969865,15.197009 8.8929906,12.301001 10.035989,13.441002 5.0239959,18.452001 5.0169979,18.444992 5.0090033,18.453001 0,13.441188 1.1350007,12.304003 4.0409864,15.209299 Z" Fill="#FF727272" HorizontalAlignment="Right" Stretch="Fill" Width="10.036"/>
+                                        </Grid>
+                                    </sfgrid:SortButton.Icon>
+                                </sfgrid:SortButton>
+                                <sfgrid:SortButton x:Name="PART_SortDescendingButton" Content="{TemplateBinding DescendingSortString}" FontStretch="{TemplateBinding FontWeight}" Foreground="{TemplateBinding Foreground}" FontStyle="{TemplateBinding FontStyle}" FontFamily="{TemplateBinding FontFamily}" FontWeight="{TemplateBinding FontWeight}" FontSize="{TemplateBinding FontSize}" Visibility="{TemplateBinding SortOptionVisibility}">
+                                    <sfgrid:SortButton.Icon>
+                                        <Grid Height="20" Margin="1" Width="20">
+                                            <Path Data="F0 M 4.0409985,0 L 5.9969985,0 5.9969985,15.197002 8.893003,12.301001 10.036005,13.441002 5.0239986,18.452001 5.0174005,18.445392 5.0098115,18.453001 0,13.441188 1.1351838,12.304003 4.0409985,15.209239 Z" Fill="#FF727272" HorizontalAlignment="Right" Stretch="Fill" Width="10.036"/>
+                                            <Path Data="F1 M 7.1563,0 L 2.53386,7.42252 4.03134,7.42252 C 4.73828,7.42252 5.23308,7.37825 5.51563,7.28905 5.97534,7.14973 6.37109,6.89385 6.70444,6.52093 7.03654,6.14787 7.26694,5.64787 7.39453,5.02146 L 7.61987,5.02146 7.30083,7.86332 0.0989685,7.86332 4.72653,0.429047 3.5612,0.429047 C 3.10815,0.429047 2.8112,0.44278 2.66801,0.469452 2.39722,0.520264 2.14319,0.619202 1.90495,0.768265 1.66801,0.917336 1.47014,1.11533 1.31389,1.36266 1.15759,1.61012 1.03386,1.92319 0.945358,2.30212 L 0.73056,2.30212 0.945358,0 7.1563,0 Z" Fill="#FF8959AB" HorizontalAlignment="Left" Height="7.863" Margin="0.099,0.593,0,0" Stretch="Fill" VerticalAlignment="Top" Width="7.521"/>
+                                            <Path Data="F1 M 4.84775,15.3464 L 2.0704,15.3464 1.73962,16.112 C 1.63159,16.3665 1.57813,16.5774 1.57813,16.7436 1.57813,16.9642 1.66667,17.1264 1.84509,17.2312 1.94922,17.2931 2.20573,17.3392 2.61589,17.3699 L 2.61589,17.5846 0,17.5846 0,17.3699 C 0.282562,17.3274 0.514404,17.2103 0.696655,17.0196 0.877609,16.8281 1.10161,16.4329 1.36853,15.8333 L 4.18108,9.55865 4.29175,9.55865 7.12761,16.0072 C 7.39856,16.6185 7.61987,17.0027 7.79428,17.1615 7.92587,17.2813 8.11069,17.3509 8.35027,17.3699 L 8.35027,17.5846 4.54697,17.5846 4.54697,17.3699 4.70322,17.3699 C 5.0092,17.3699 5.22266,17.3274 5.34641,17.2423 5.4323,17.1811 5.474,17.0919 5.474,16.976 5.474,16.9063 5.46362,16.8346 5.44016,16.7611 5.4323,16.7267 5.37375,16.5815 5.26563,16.3263 L 4.84775,15.3464 M 4.65109,14.9173 L 3.47922,12.2091 2.27348,14.9173 4.65109,14.9173 Z" Fill="#FF5384B4" HorizontalAlignment="Left" Height="8.026" Margin="0,0,0,0.275" Stretch="Fill" VerticalAlignment="Bottom" Width="8.35"/>
+                                        </Grid>
+                                    </sfgrid:SortButton.Icon>
+                                </sfgrid:SortButton>
+                                <Button x:Name="PART_ClearFilterButton" 
+                                        Content="{sfgrid:GridLocalizationResource ResourceName=ClearFilter}" 
+                                        Foreground="{TemplateBinding Foreground}" FontWeight="{TemplateBinding FontWeight}" 
+                                        HorizontalAlignment="Stretch" 
+                                        HorizontalContentAlignment="Left" 
+                                        IsEnabled="True" 
+                                        Style="{StaticResource clearFilterBtnStyle}" 
+                                        VerticalAlignment="Stretch"/>
+                                <TextBlock x:Name="AdvancedFiltersText" 
+                                           TextBlock.FontStretch="{TemplateBinding FontWeight}" 
+                                           Foreground="{TemplateBinding Foreground}" 
+                                           TextBlock.FontStyle="{TemplateBinding FontStyle}" 
+                                           TextBlock.FontFamily="{TemplateBinding FontFamily}" 
+                                           TextBlock.FontWeight="{TemplateBinding FontWeight}" 
+                                           TextBlock.FontSize="{TemplateBinding FontSize}" 
+                                           HorizontalAlignment="Stretch" 
+                                           Margin="30,5,4,2" 
+                                           Text="{Binding FilterColumnType, RelativeSource={RelativeSource TemplatedParent}}" 
+                                           VerticalAlignment="Center" 
+                                           Visibility="{Binding FilterMode, ConverterParameter=reverse, Converter={StaticResource advancedFilterButtonVisibilityConverter}, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                <Button x:Name="PART_AdvancedFilterButton" 
+                                        Content="{Binding FilterColumnType, RelativeSource={RelativeSource TemplatedParent}}" 
+                                        FontStretch="{TemplateBinding FontWeight}" 
+                                        Foreground="{TemplateBinding Foreground}" 
+                                        FontStyle="{TemplateBinding FontStyle}" 
+                                        FontFamily="{TemplateBinding FontFamily}" 
+                                        FontWeight="{TemplateBinding FontWeight}" 
+                                        FontSize="{TemplateBinding FontSize}" 
+                                        HorizontalAlignment="Stretch" 
+                                        HorizontalContentAlignment="Left" 
+                                        Style="{StaticResource AdvancedFiltersBtnStyle}" 
+                                        VerticalAlignment="Stretch" 
+                                        Visibility="{Binding FilterMode, Converter={StaticResource advancedFilterButtonVisibilityConverter}, RelativeSource={RelativeSource TemplatedParent}}"/>
+                            </StackPanel>
+                            <Grid Background="{TemplateBinding Background}" Grid.Row="1">
+                                <sfgrid:CheckboxFilterControl x:Name="PART_CheckboxFilterControl" 
+                                                              Background="{TemplateBinding Background}" 
+                                                              FontStretch="{TemplateBinding FontWeight}" 
+                                                              Foreground="{TemplateBinding Foreground}" 
+                                                              FontStyle="{TemplateBinding FontStyle}" 
+                                                              FontFamily="{TemplateBinding FontFamily}" 
+                                                              Focusable="False" 
+                                                              FontWeight="{TemplateBinding FontWeight}" 
+                                                              FontSize="{TemplateBinding FontSize}" 
+                                                              Visibility="{Binding IsAdvancedFilterVisible, Converter={StaticResource reverseVisibilityConverter}, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                <sfgrid:AdvancedFilterControl x:Name="PART_AdvancedFilterControl" 
+                                                              Background="{TemplateBinding Background}" 
+                                                              FontStretch="{TemplateBinding FontWeight}" 
+                                                              Foreground="{TemplateBinding Foreground}" 
+                                                              FontStyle="{TemplateBinding FontStyle}" 
+                                                              FontFamily="{TemplateBinding FontFamily}" 
+                                                              Focusable="False" FontWeight="{TemplateBinding FontWeight}" 
+                                                              FontSize="{TemplateBinding FontSize}" 
+                                                              Visibility="{Binding IsAdvancedFilterVisible, Converter={StaticResource boolToVisiblityConverter}, RelativeSource={RelativeSource TemplatedParent}}"/>
+                            </Grid>
+                            <Border Background="{TemplateBinding Background}" 
+                                    BorderBrush="{TemplateBinding BorderBrush}" 
+                                    BorderThickness="0,0,0,1" 
+                                    Margin="30,0,0,4" 
+                                    Grid.Row="2" 
+                                    Visibility="{Binding IsAdvancedFilterVisible, Converter={StaticResource boolToVisiblityConverter}, RelativeSource={RelativeSource TemplatedParent}}"/>
+                            <StackPanel Grid.Row="3">
+                                <StackPanel HorizontalAlignment="Right" Margin="0,10,4,5" Orientation="Horizontal">
+                                    <Button x:Name="PART_OkButton" 
+                                            Background="{StaticResource FilterButtonNormalBackground}" 
+                                            BorderBrush="{StaticResource FilterButtonNormalBorder}" 
+                                            Content="{sfgrid:GridLocalizationResource ResourceName=OK}" 
+                                            FontStretch="{TemplateBinding FontWeight}" 
+                                            Foreground="{TemplateBinding Foreground}" 
+                                            FontStyle="{TemplateBinding FontStyle}" 
+                                            FontFamily="{TemplateBinding FontFamily}" 
+                                            FontWeight="{TemplateBinding FontWeight}" 
+                                            FontSize="{TemplateBinding FontSize}" 
+                                            HorizontalAlignment="Stretch" 
+                                            IsEnabled="False" 
+                                            Margin="5,0,0,0" 
+                                            Visibility="{Binding ImmediateUpdateColumnFilter, ConverterParameter=InverseVisiblity, Converter={StaticResource boolToVisiblityConverter}, RelativeSource={RelativeSource TemplatedParent}}" Width="100"/>
+                                    <Button x:Name="PART_CancelButton" 
+                                            Background="{StaticResource FilterButtonNormalBackground}" 
+                                            BorderBrush="{StaticResource FilterButtonNormalBorder}" 
+                                            Content="{Binding ImmediateUpdateColumnFilter, Converter={StaticResource resourceNameConverter}, RelativeSource={RelativeSource TemplatedParent}}" 
+                                            FontStretch="{TemplateBinding FontWeight}" 
+                                            Foreground="{TemplateBinding Foreground}" 
+                                            FontStyle="{TemplateBinding FontStyle}" 
+                                            FontFamily="{TemplateBinding FontFamily}" 
+                                            FontWeight="{TemplateBinding FontWeight}" 
+                                            FontSize="{TemplateBinding FontSize}" 
+                                            HorizontalAlignment="Stretch" 
+                                            Margin="5,0,0,0" Width="100"/>
+                                </StackPanel>
+                                <Border BorderBrush="LightGray" BorderThickness="0.5" Height="10">
+                                    <Border.Background>
+                                        <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                            <GradientStop Color="Transparent" Offset="0"/>
+                                            <GradientStop Color="#E3E3E3" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Thumb x:Name="PART_ThumbGripper" Cursor="SizeNWSE" HorizontalAlignment="Right">
+                                        <Thumb.Template>
+                                            <ControlTemplate>
+                                                <Grid Background="Transparent">
+                                                    <Path Data="F0 M 36.396,36.017 L 47.901,36.017 47.901,47.521999 36.396,47.521999 M 18.198,36.017 L 29.716,36.017 29.716,47.521999 18.198,47.521999 M 0,36.017 L 11.511999,36.017 11.511999,47.521999 0,47.521999 M 36.396,18.191001 L 47.901,18.191001 47.901,29.696 36.396,29.696 M 18.198,18.191 L 29.716,18.191 29.716,29.696 18.198,29.696 M 36.396,0 L 47.901,0 47.901,11.512 36.396,11.512 Z" Fill="#FF727272" Height="8" Stretch="Fill" Width="8"/>
+                                                </Grid>
+                                            </ControlTemplate>
+                                        </Thumb.Template>
+                                    </Thumb>
+                                </Border>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </ContentControl>
+            </Popup>
+        </Border>
+    </ControlTemplate>
+
+
+    <Style TargetType="sf:GridFilterControl" >
+        <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}" />
+        <Setter Property="Background" Value="{StaticResource WindowBackground}" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FilterPopupWidth" Value="250"/>
+        <Setter Property="FilterPopupHeight" Value="400"/>
+        <Setter Property="MinWidth" Value="150"/>
+        <Setter Property="MinHeight" Value="150"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type sfgrid:GridFilterControl}">
+                    <Border>
+                        <Popup x:Name="PART_FilterPopup" AllowsTransparency="True" 
+                   IsOpen="{Binding IsOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" 
+                   Placement="Bottom" PlacementTarget="{Binding ElementName=PART_FilterToggleButton}" 
+                   StaysOpen="False">
+                            <ContentControl ContentTemplate="{TemplateBinding ContentTemplate}">
+                                <Border x:Name="PART_FilterPopUpBorder" Background="{TemplateBinding Background}" 
+                            BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" 
+                            CornerRadius="{StaticResource ControlCornerRadius}" 
+                            Height="{Binding FilterPopupHeight, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" 
+                            Width="{Binding FilterPopupWidth, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <StackPanel>
+                                            <sfgrid:SortButton x:Name="PART_SortAscendingButton" 
+                                                   Content="{TemplateBinding AscendingSortString}" 
+                                                   FontStretch="{TemplateBinding FontWeight}" 
+                                                   Foreground="{TemplateBinding Foreground}" 
+                                                   FontStyle="{TemplateBinding FontStyle}" 
+                                                   FontFamily="{TemplateBinding FontFamily}" 
+                                                   FontWeight="{TemplateBinding FontWeight}" 
+                                                   FontSize="{TemplateBinding FontSize}" 
+                                                   Visibility="{TemplateBinding SortOptionVisibility}">
+                                                <sfgrid:SortButton.Icon>
+                                                    <Grid Height="20" Margin="1" Width="20">
+                                                        <Path Data="F1 M 4.84775,5.78774 L 2.07043,5.78774 1.73962,6.55335 C 1.63162,6.80788 1.57816,7.01882 1.57816,7.18482 1.57816,7.40562 1.66666,7.56761 1.84509,7.67255 1.94934,7.73428 2.20578,7.78054 2.616,7.81123 L 2.616,8.02601 0,8.02601 0,7.81123 C 0.282684,7.76882 0.514404,7.65162 0.696686,7.46095 0.877777,7.26948 1.10159,6.87428 1.36856,6.27468 L 4.18106,0 4.29175,0 7.12778,6.44855 C 7.39856,7.05988 7.61987,7.44402 7.79443,7.60281 7.9259,7.72268 8.11081,7.79228 8.35031,7.81123 L 8.35031,8.02601 4.54697,8.02601 4.54697,7.81123 4.70322,7.81123 C 5.00925,7.81123 5.22269,7.76882 5.34644,7.68362 5.4324,7.62242 5.474,7.53321 5.474,7.41734 5.474,7.34762 5.46362,7.27601 5.44016,7.20242 5.4324,7.16787 5.37375,7.02281 5.26575,6.76748 L 4.84775,5.78774 M 4.65109,5.35869 L 3.47922,2.65041 2.27347,5.35869 4.65109,5.35869 Z" Fill="#FF5384B4" HorizontalAlignment="Left" Height="8.026" Margin="0,0.43,0,0" Stretch="Fill" VerticalAlignment="Top" Width="8.35"/>
+                                                        <Path Data="F1 M 7.15628,9.88402 L 2.53391,17.3065 4.03137,17.3065 C 4.7384,17.3065 5.23325,17.2623 5.51575,17.1731 5.97534,17.0339 6.37122,16.778 6.70456,16.405 7.03653,16.0319 7.26697,15.5319 7.39456,14.9056 L 7.61987,14.9056 7.30081,17.7473 0.0990906,17.7473 4.72668,10.3131 3.56125,10.3131 C 3.10815,10.3131 2.81125,10.3268 2.668,10.3535 2.39722,10.4043 2.14334,10.5032 1.90506,10.6523 1.668,10.8014 1.47012,10.9994 1.31387,11.2467 1.15762,11.4941 1.03391,11.8072 0.945343,12.1861 L 0.73056,12.1861 0.945343,9.88402 7.15628,9.88402 Z" Fill="#FF8959AB" HorizontalAlignment="Left" Height="7.863" Margin="0.099,0,0,0.276" Stretch="Fill" VerticalAlignment="Bottom" Width="7.521"/>
+                                                        <Path Data="F0 M 4.0409864,0 L 5.9969865,0 5.9969865,15.197009 8.8929906,12.301001 10.035989,13.441002 5.0239959,18.452001 5.0169979,18.444992 5.0090033,18.453001 0,13.441188 1.1350007,12.304003 4.0409864,15.209299 Z" Fill="#FF727272" HorizontalAlignment="Right" Stretch="Fill" Width="10.036"/>
+                                                    </Grid>
+                                                </sfgrid:SortButton.Icon>
+                                            </sfgrid:SortButton>
+                                            <sfgrid:SortButton x:Name="PART_SortDescendingButton" Content="{TemplateBinding DescendingSortString}" FontStretch="{TemplateBinding FontWeight}" Foreground="{TemplateBinding Foreground}" FontStyle="{TemplateBinding FontStyle}" FontFamily="{TemplateBinding FontFamily}" FontWeight="{TemplateBinding FontWeight}" FontSize="{TemplateBinding FontSize}" Visibility="{TemplateBinding SortOptionVisibility}">
+                                                <sfgrid:SortButton.Icon>
+                                                    <Grid Height="20" Margin="1" Width="20">
+                                                        <Path Data="F0 M 4.0409985,0 L 5.9969985,0 5.9969985,15.197002 8.893003,12.301001 10.036005,13.441002 5.0239986,18.452001 5.0174005,18.445392 5.0098115,18.453001 0,13.441188 1.1351838,12.304003 4.0409985,15.209239 Z" Fill="#FF727272" HorizontalAlignment="Right" Stretch="Fill" Width="10.036"/>
+                                                        <Path Data="F1 M 7.1563,0 L 2.53386,7.42252 4.03134,7.42252 C 4.73828,7.42252 5.23308,7.37825 5.51563,7.28905 5.97534,7.14973 6.37109,6.89385 6.70444,6.52093 7.03654,6.14787 7.26694,5.64787 7.39453,5.02146 L 7.61987,5.02146 7.30083,7.86332 0.0989685,7.86332 4.72653,0.429047 3.5612,0.429047 C 3.10815,0.429047 2.8112,0.44278 2.66801,0.469452 2.39722,0.520264 2.14319,0.619202 1.90495,0.768265 1.66801,0.917336 1.47014,1.11533 1.31389,1.36266 1.15759,1.61012 1.03386,1.92319 0.945358,2.30212 L 0.73056,2.30212 0.945358,0 7.1563,0 Z" Fill="#FF8959AB" HorizontalAlignment="Left" Height="7.863" Margin="0.099,0.593,0,0" Stretch="Fill" VerticalAlignment="Top" Width="7.521"/>
+                                                        <Path Data="F1 M 4.84775,15.3464 L 2.0704,15.3464 1.73962,16.112 C 1.63159,16.3665 1.57813,16.5774 1.57813,16.7436 1.57813,16.9642 1.66667,17.1264 1.84509,17.2312 1.94922,17.2931 2.20573,17.3392 2.61589,17.3699 L 2.61589,17.5846 0,17.5846 0,17.3699 C 0.282562,17.3274 0.514404,17.2103 0.696655,17.0196 0.877609,16.8281 1.10161,16.4329 1.36853,15.8333 L 4.18108,9.55865 4.29175,9.55865 7.12761,16.0072 C 7.39856,16.6185 7.61987,17.0027 7.79428,17.1615 7.92587,17.2813 8.11069,17.3509 8.35027,17.3699 L 8.35027,17.5846 4.54697,17.5846 4.54697,17.3699 4.70322,17.3699 C 5.0092,17.3699 5.22266,17.3274 5.34641,17.2423 5.4323,17.1811 5.474,17.0919 5.474,16.976 5.474,16.9063 5.46362,16.8346 5.44016,16.7611 5.4323,16.7267 5.37375,16.5815 5.26563,16.3263 L 4.84775,15.3464 M 4.65109,14.9173 L 3.47922,12.2091 2.27348,14.9173 4.65109,14.9173 Z" Fill="#FF5384B4" HorizontalAlignment="Left" Height="8.026" Margin="0,0,0,0.275" Stretch="Fill" VerticalAlignment="Bottom" Width="8.35"/>
+                                                    </Grid>
+                                                </sfgrid:SortButton.Icon>
+                                            </sfgrid:SortButton>
+                                            <Button x:Name="PART_ClearFilterButton" 
+                                        Content="{sfgrid:GridLocalizationResource ResourceName=ClearFilter}" 
+                                        Foreground="{TemplateBinding Foreground}" FontWeight="{TemplateBinding FontWeight}" 
+                                        HorizontalAlignment="Stretch" 
+                                        HorizontalContentAlignment="Left" 
+                                        IsEnabled="True" 
+                                        Style="{StaticResource clearFilterBtnStyle}" 
+                                        VerticalAlignment="Stretch"/>
+                                            <TextBlock x:Name="AdvancedFiltersText" 
+                                           TextBlock.FontStretch="{TemplateBinding FontWeight}" 
+                                           Foreground="{TemplateBinding Foreground}" 
+                                           TextBlock.FontStyle="{TemplateBinding FontStyle}" 
+                                           TextBlock.FontFamily="{TemplateBinding FontFamily}" 
+                                           TextBlock.FontWeight="{TemplateBinding FontWeight}" 
+                                           TextBlock.FontSize="{TemplateBinding FontSize}" 
+                                           HorizontalAlignment="Stretch" 
+                                           Margin="30,5,4,2" 
+                                           Text="{Binding FilterColumnType, RelativeSource={RelativeSource TemplatedParent}}" 
+                                           VerticalAlignment="Center" 
+                                           Visibility="{Binding FilterMode, ConverterParameter=reverse, Converter={StaticResource advancedFilterButtonVisibilityConverter}, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                            <Button x:Name="PART_AdvancedFilterButton" 
+                                        Content="{Binding FilterColumnType, RelativeSource={RelativeSource TemplatedParent}}" 
+                                        FontStretch="{TemplateBinding FontWeight}" 
+                                        Foreground="{TemplateBinding Foreground}" 
+                                        FontStyle="{TemplateBinding FontStyle}" 
+                                        FontFamily="{TemplateBinding FontFamily}" 
+                                        FontWeight="{TemplateBinding FontWeight}" 
+                                        FontSize="{TemplateBinding FontSize}" 
+                                        HorizontalAlignment="Stretch" 
+                                        HorizontalContentAlignment="Left" 
+                                        Style="{StaticResource AdvancedFiltersBtnStyle}" 
+                                        VerticalAlignment="Stretch" 
+                                        Visibility="{Binding FilterMode, Converter={StaticResource advancedFilterButtonVisibilityConverter}, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                        </StackPanel>
+                                        <Grid Background="{TemplateBinding Background}" Grid.Row="1">
+                                            <sfgrid:CheckboxFilterControl x:Name="PART_CheckboxFilterControl" 
+                                                              Background="{TemplateBinding Background}" 
+                                                              FontStretch="{TemplateBinding FontWeight}" 
+                                                              Foreground="{TemplateBinding Foreground}" 
+                                                              FontStyle="{TemplateBinding FontStyle}" 
+                                                              FontFamily="{TemplateBinding FontFamily}" 
+                                                              Focusable="False" 
+                                                              FontWeight="{TemplateBinding FontWeight}" 
+                                                              FontSize="{TemplateBinding FontSize}" 
+                                                              Visibility="{Binding IsAdvancedFilterVisible, Converter={StaticResource reverseVisibilityConverter}, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                            <sfgrid:AdvancedFilterControl x:Name="PART_AdvancedFilterControl" 
+                                                              Background="{TemplateBinding Background}" 
+                                                              FontStretch="{TemplateBinding FontWeight}" 
+                                                              Foreground="{TemplateBinding Foreground}" 
+                                                              FontStyle="{TemplateBinding FontStyle}" 
+                                                              FontFamily="{TemplateBinding FontFamily}" 
+                                                              Focusable="False" FontWeight="{TemplateBinding FontWeight}" 
+                                                              FontSize="{TemplateBinding FontSize}" 
+                                                              Visibility="{Binding IsAdvancedFilterVisible, Converter={StaticResource boolToVisiblityConverter}, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                        </Grid>
+                                        <Border Background="{TemplateBinding Background}" 
+                                    BorderBrush="{TemplateBinding BorderBrush}" 
+                                    BorderThickness="0,0,0,1" 
+                                    Margin="30,0,0,4" 
+                                    Grid.Row="2" 
+                                    Visibility="{Binding IsAdvancedFilterVisible, Converter={StaticResource boolToVisiblityConverter}, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                        <StackPanel Grid.Row="3">
+                                            <StackPanel HorizontalAlignment="Right" Margin="0,10,4,5" Orientation="Horizontal">
+                                                <Button x:Name="PART_OkButton" 
+                                            Background="{StaticResource FilterButtonNormalBackground}" 
+                                            BorderBrush="{StaticResource FilterButtonNormalBorder}" 
+                                            Content="{sfgrid:GridLocalizationResource ResourceName=OK}" 
+                                            FontStretch="{TemplateBinding FontWeight}" 
+                                            Foreground="{TemplateBinding Foreground}" 
+                                            FontStyle="{TemplateBinding FontStyle}" 
+                                            FontFamily="{TemplateBinding FontFamily}" 
+                                            FontWeight="{TemplateBinding FontWeight}" 
+                                            FontSize="{TemplateBinding FontSize}" 
+                                            HorizontalAlignment="Stretch" 
+                                            IsEnabled="False" 
+                                            Margin="5,0,0,0" 
+                                            Visibility="{Binding ImmediateUpdateColumnFilter, ConverterParameter=InverseVisiblity, Converter={StaticResource boolToVisiblityConverter}, RelativeSource={RelativeSource TemplatedParent}}" Width="100"/>
+                                                <Button x:Name="PART_CancelButton" 
+                                            Background="{StaticResource FilterButtonNormalBackground}" 
+                                            BorderBrush="{StaticResource FilterButtonNormalBorder}" 
+                                            Content="{Binding ImmediateUpdateColumnFilter, Converter={StaticResource resourceNameConverter}, RelativeSource={RelativeSource TemplatedParent}}" 
+                                            FontStretch="{TemplateBinding FontWeight}" 
+                                            Foreground="{TemplateBinding Foreground}" 
+                                            FontStyle="{TemplateBinding FontStyle}" 
+                                            FontFamily="{TemplateBinding FontFamily}" 
+                                            FontWeight="{TemplateBinding FontWeight}" 
+                                            FontSize="{TemplateBinding FontSize}" 
+                                            HorizontalAlignment="Stretch" 
+                                            Margin="5,0,0,0" Width="100"/>
+                                            </StackPanel>
+                                            <Border BorderBrush="LightGray" BorderThickness="0.5" Height="10">
+                                                <Border.Background>
+                                                    <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                                        <GradientStop Color="Transparent" Offset="0"/>
+                                                        <GradientStop Color="#E3E3E3" Offset="1"/>
+                                                    </LinearGradientBrush>
+                                                </Border.Background>
+                                                <Thumb x:Name="PART_ThumbGripper" Cursor="SizeNWSE" HorizontalAlignment="Right">
+                                                    <Thumb.Template>
+                                                        <ControlTemplate>
+                                                            <Grid Background="Transparent">
+                                                                <Path Data="F0 M 36.396,36.017 L 47.901,36.017 47.901,47.521999 36.396,47.521999 M 18.198,36.017 L 29.716,36.017 29.716,47.521999 18.198,47.521999 M 0,36.017 L 11.511999,36.017 11.511999,47.521999 0,47.521999 M 36.396,18.191001 L 47.901,18.191001 47.901,29.696 36.396,29.696 M 18.198,18.191 L 29.716,18.191 29.716,29.696 18.198,29.696 M 36.396,0 L 47.901,0 47.901,11.512 36.396,11.512 Z" Fill="#FF727272" Height="8" Stretch="Fill" Width="8"/>
+                                                            </Grid>
+                                                        </ControlTemplate>
+                                                    </Thumb.Template>
+                                                </Thumb>
+                                            </Border>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                            </ContentControl>
+                        </Popup>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 
 
 </ResourceDictionary>

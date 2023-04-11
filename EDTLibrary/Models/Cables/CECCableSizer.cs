@@ -151,6 +151,8 @@ namespace EDTLibrary.Models.Cables
             }
             return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtProjectSettings.DefaultCableTypeLoad_3ph300to1kV));
         }
+
+
         public bool IsUsingStandardSizingTable(ICable cable)
         {
             if (cable.AmpacityTable == "Table 1" || cable.AmpacityTable == "Table 2" || cable.AmpacityTable == "Table 3" || cable.AmpacityTable == "Table 4") {

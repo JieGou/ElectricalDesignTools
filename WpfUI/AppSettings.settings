@@ -53,14 +53,14 @@
     <Setting Name="LoadListPropertyPaneWidth" Type="System.Double" Scope="User">
       <Value Profile="(Default)">550</Value>
     </Setting>
-    <Setting Name="CableListViewPropertiesPaneVisibility" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="LostListViewPropertiesPaneVisibility" Type="System.Boolean" Scope="User">
+    <Setting Name="LoadListViewPropertiesPaneVisibility" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="SingleLineViewPropertiesPaneVisibility" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="CableListViewPropertiesPaneVisibility" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>
 </SettingsFile>

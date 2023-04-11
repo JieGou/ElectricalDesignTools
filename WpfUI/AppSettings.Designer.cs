@@ -230,25 +230,13 @@ namespace WpfUI {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool CableListViewPropertiesPaneVisibility {
-            get {
-                return ((bool)(this["CableListViewPropertiesPaneVisibility"]));
-            }
-            set {
-                this["CableListViewPropertiesPaneVisibility"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool LostListViewPropertiesPaneVisibility {
+        public bool LoadListViewPropertiesPaneVisibility {
             get {
-                return ((bool)(this["LostListViewPropertiesPaneVisibility"]));
+                return ((bool)(this["LoadListViewPropertiesPaneVisibility"]));
             }
             set {
-                this["LostListViewPropertiesPaneVisibility"] = value;
+                this["LoadListViewPropertiesPaneVisibility"] = value;
             }
         }
         
@@ -261,6 +249,18 @@ namespace WpfUI {
             }
             set {
                 this["SingleLineViewPropertiesPaneVisibility"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool CableListViewPropertiesPaneVisibility {
+            get {
+                return ((bool)(this["CableListViewPropertiesPaneVisibility"]));
+            }
+            set {
+                this["CableListViewPropertiesPaneVisibility"] = value;
             }
         }
     }

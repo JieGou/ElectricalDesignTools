@@ -379,11 +379,18 @@ public class CableModel : ICable
 
     private void CalculateTotalCables()
     {
-        if (TypeModel.ConductorQty == WireCountSelector.GetWireCount((IPowerConsumer)Load)) {
+        if (UsageType!= CableUsageTypes.Power.ToString()) {
+            TotalCables = 1;
+            return;
+        }
+
+        if (Load.VoltageType == null) return;
+        var wireCount = WireCountSelector.GetWireCount((IPowerConsumer)Load);
+        if (TypeModel.ConductorQty == wireCount) {
             TotalCables = QtyParallel;
         }
         else {
-            TotalCables = QtyParallel * TypeModel.ConductorQty * WireCountSelector.GetWireCount((IPowerConsumer)Load);
+            TotalCables = QtyParallel * TypeModel.ConductorQty * wireCount;
         }
     }
 

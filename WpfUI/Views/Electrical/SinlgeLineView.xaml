@@ -149,7 +149,8 @@
         <Grid>
             <!--Property Grid-->
             <Expander x:Name="propertyGridExpander"
-                    IsExpanded="{Binding Source={x:Static app:AppSettings.Default}, Path=SingleLineViewPropertiesPaneVisibility, Mode=TwoWay}"
+                    IsExpanded="{Binding Source={x:Static app:AppSettings.Default}, 
+                                         Path=SingleLineViewPropertiesPaneVisibility, Mode=TwoWay}"
                     Width="25"
                     Height="25"
                     VerticalAlignment="Top"
