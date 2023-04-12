@@ -15,6 +15,7 @@ public class PdStarterGraphicTemplateSelector : DataTemplateSelector
 {
     public DataTemplate EmptyTemplate { get; set; }
     public DataTemplate BreakerTemplate { get; set; }
+    public DataTemplate MvBreakerTemplate { get; set; }
     public DataTemplate DolTemplate { get; set; }
     public DataTemplate VsdTemplate { get; set; }
     public DataTemplate FdsTemplate { get; set; }
@@ -29,9 +30,11 @@ public class PdStarterGraphicTemplateSelector : DataTemplateSelector
         if (item == null) return EmptyTemplate;
 
         IProtectionDevice pd = null;
+        IPowerConsumer dteq = null;
         try {
             if (item.GetType() == typeof(ProtectionDeviceModel)) {
                 pd = (ProtectionDeviceModel)item;
+                dteq = pd.Owner as IPowerConsumer;
             }
         }
         catch (Exception) { }
@@ -66,6 +69,7 @@ public class PdStarterGraphicTemplateSelector : DataTemplateSelector
             return EmptyTemplate;
         }
 
+        if (pd.Type == "Breaker" && dteq.Voltage >=750) return MvBreakerTemplate;
         if (pd.Type == "Breaker") return BreakerTemplate;
 
         if (pd.Type == "FDS") return FdsTemplate;

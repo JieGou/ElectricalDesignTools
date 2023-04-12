@@ -49,6 +49,7 @@
         <Setter Property="BorderBrush" Value="{StaticResource ControlBorder}" />
     </Style>
 
+    
     <Style TargetType="TextBox" x:Key="SummaryValue_TextBoxStyle" BasedOn="{StaticResource {x:Type TextBox}}">
         <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}"/>
         <Setter Property="TextAlignment" Value="Left"/>

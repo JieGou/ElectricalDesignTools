@@ -19,7 +19,6 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../Styles/EdtStyle_Orange.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -139,6 +138,7 @@
             <DataGrid x:Name="dgdDataTables"
                       Grid.Column="3" 
                       Grid.Row="3"
+                      Background="Transparent"
                       MinHeight="200" MinWidth="300"
                       AutoGenerateColumns="True"
                       CanUserAddRows="False"
@@ -154,9 +154,7 @@
                       EnableColumnVirtualization="True"
                       ScrollViewer.CanContentScroll="True">
                 <DataGrid.Resources>
-                    <Style TargetType="{x:Type DataGridColumnHeader}">
-                        <Setter Property="FontWeight" Value="Bold"/>
-                    </Style>
+                    
                     <Style TargetType="{x:Type DataGridCell}">
                         <Setter Property="Template">
                             <Setter.Value>

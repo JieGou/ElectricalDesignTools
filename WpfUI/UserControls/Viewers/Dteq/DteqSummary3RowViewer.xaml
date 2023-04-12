@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:WpfUI.UserControls.Viewers"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             d:Background="AliceBlue">
+             >
     <!--Top Data-->
     <Grid Grid.Column="3" Grid.ColumnSpan="2"
           ShowGridLines="false">
@@ -169,7 +169,7 @@
             <!--Phase A / Line 1-->
             <TextBlock Grid.Row="0" Grid.Column="0">
                 <TextBlock.Style>
-                    <Style TargetType="TextBlock">
+                    <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding VoltageType.Phase}" Value="3">
                                 <Setter Property="Text" Value="Phase A"/>
@@ -191,7 +191,7 @@
             <!--Phase B / Line 2-->
             <TextBlock Grid.Row="1" Grid.Column="0">
                 <TextBlock.Style>
-                    <Style TargetType="TextBlock">
+                    <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding VoltageType.Phase}" Value="3">
                                 <Setter Property="Text" Value="Phase B"/>
@@ -220,7 +220,7 @@
             </TextBlock>
             <TextBlock Text="{Binding PhaseB}" Grid.Row="1" Grid.Column="2">
                 <TextBlock.Style>
-                    <Style TargetType="TextBlock">
+                    <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding VoltageType.Phase}" Value="3">
                                 <Setter Property="Visibility" Value="Visible"/>
@@ -251,7 +251,7 @@
             <!--Phase C / Neutral-->
             <TextBlock Grid.Row="2" Grid.Column="0">
                 <TextBlock.Style>
-                    <Style TargetType="TextBlock">
+                    <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding VoltageType.Phase}" Value="3">
                                 <Setter Property="Text" Value="Phase C"/>
@@ -265,7 +265,7 @@
             </TextBlock>
             <TextBlock Text="{Binding PhaseC}" Grid.Row="2" Grid.Column="2">
                 <TextBlock.Style>
-                    <Style TargetType="TextBlock">
+                    <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding VoltageType.Phase}" Value="3">
                                 <Setter Property="Visibility" Value="Visible"/>

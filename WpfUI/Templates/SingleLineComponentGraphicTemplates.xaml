@@ -220,7 +220,148 @@
 
     </DataTemplate>
 
-    
+    <!--MV Breaker Template-->
+    <DataTemplate x:Key="BreakerTemplate_Mv">
+        <StackPanel Orientation="Vertical" >
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="{StaticResource LcsColumnWidth}"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Grid Style="{StaticResource GraphicHighlightStyle}" x:Name="BreakerGrid"
+                      Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="22"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+
+
+                    <!--Graphic-->
+                    <Border Grid.Column="1">
+
+                        <Border.CornerRadius>
+                            <CornerRadius TopLeft="{StaticResource HighlightCorerRadius}"
+                                      BottomLeft="{StaticResource HighlightCorerRadius}"
+                                      TopRight="0"
+                                      BottomRight="0"/>
+                        </Border.CornerRadius>
+
+                        <StackPanel>
+                            
+                            <!--CT-->
+                            <Canvas Grid.Column="1" Grid.ColumnSpan="3"
+                                    Height="45">
+                                <Path Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" Data="M 20,20 A 6,5 0 0 1 20, 7 L85,7" />
+                                <Path Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" Data="M 20,33 A 6,5 0 0 1 20, 20 L25 20" />
+                                <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="20" Y1="33" X2="30" Y2="33"/>
+                                <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="17.5" Y1="0" X2="17.5" Y2="45"/>
+
+                            </Canvas>
+                            
+                            <!--Breaeker--> 
+                            <Border BorderBrush="{StaticResource EqGraphicColorBrush}"
+                                BorderThickness="1"
+                                Grid.Column="1"
+                                Width="50" Height="35">
+
+                                <TextBlock Text="{Binding FrameAmps, StringFormat={}{0:N0} AF}" 
+                                           Foreground="{StaticResource TextColorSingleLineGraphics_Black}"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Center"/>
+
+                                <!--<TextBlock Text="52"
+                                       Foreground="{StaticResource TextColorSingleLineGraphics_Black}"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Center"/>-->
+                            </Border>
+                           
+                            <!--CT-->
+                            <Canvas Grid.Column="1" Grid.ColumnSpan="3"
+                                    Height="45"
+                                    Panel.ZIndex="3">
+                                
+                                <Path Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" Data="M 20,20 A 6,5 0 0 1 20, 7 L85,7" />
+                                <Path Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" Data="M 20,33 A 6,5 0 0 1 20, 20 L25 20" />
+                                <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="20" Y1="33" X2="30" Y2="33"/>
+                                <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="17.5" Y1="0" X2="17.5" Y2="45"/>
+                                <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="15.5" Y1="5" X2="15.5" Y2="35"/>
+                                <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="19.5" Y1="5" X2="19.5" Y2="35"/>
+
+                            </Canvas>
+                            
+                        </StackPanel>
+
+                    </Border>
+
+                    <!--Relay-->
+                    <Border BorderThickness="0"
+                        Grid.Column="2"                      
+                        Padding="10 50 5 0"
+                        Visibility="Visible">
+                        <Border.CornerRadius>
+                            <CornerRadius TopLeft="0"
+                                      BottomLeft="0"
+                                      TopRight="{StaticResource HighlightCorerRadius}"
+                                      BottomRight="{StaticResource HighlightCorerRadius}"/>
+                        </Border.CornerRadius>
+
+                        <Grid Grid.Column="2" Style="{StaticResource GraphicHighlightStyle}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="5"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="27"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Orientation="Vertical"
+                                Grid.Row="1">
+                                <Canvas Width="50">
+                                    <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="25" Y1="-10" X2="25" Y2="-48.5"/>
+                                    <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="-11" Y1="-48.5" X2="25" Y2="-48.5"/>
+                                    <Ellipse Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" Canvas.Left="10" Canvas.Top="-10" Height="30" Width="30"/>
+                                    <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="25" Y1="20" X2="25" Y2="32.5"/>
+                                    <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="-11" Y1="32.5" X2="25" Y2="32.5"/>
+
+                                    <TextBlock Text="R" Canvas.Left="21" Canvas.Top="-5"/>
+                                </Canvas>
+                                <!--<TextBlock Text="{Binding TripAmps, StringFormat={}{0:N0} AT}" />
+                                <Border BorderThickness="0 0 0 1"/>
+                                <TextBlock Text="{Binding FrameAmps, StringFormat={}{0:N0} AF}" />-->
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <iconControls:ErrorIcon
+                        Grid.Column="0" 
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Left"
+                        Margin="0"
+                        Visibility="{Binding IsValid, 
+                        Converter={StaticResource BoolToVisInvert}, 
+                        ConverterParameter=Inverted}"
+                        ToolTip="{Binding IsInvalidMessage}"
+                        ToolTipService.InitialShowDelay="250"/>
+
+                </Grid>
+            </Grid>
+
+        </StackPanel>
+    </DataTemplate>
+
+    <!--Mv Breaker Template in Bucket-->
+    <DataTemplate x:Key="BreakerTemplate_MvBucket">
+
+        <StackPanel Orientation="Vertical">
+            <ContentControl Content="{Binding}" ContentTemplate="{StaticResource BreakerTemplate_Mv}"/>
+            <SingleLineLoadGraphics:SingleLineDashedBorder/>
+        </StackPanel>
+
+    </DataTemplate>
+
 
     <!--DOL Starter Template-->
     <DataTemplate x:Key="DOLStarterTemplate">
@@ -959,7 +1100,9 @@
 
                     <!--Data-->
                     <Border Grid.Row="1" Grid.Column="2"
-                        Grid.RowSpan="2">
+                        Grid.RowSpan="2"
+                        CornerRadius="{StaticResource BorderHighlightCornerRadius}"
+>
                         <StackPanel Orientation="Vertical"
                                 VerticalAlignment="Top">
                             <TextBlock Text="{Binding Tag}" FontWeight="SemiBold" Margin="5 0 0 0"
@@ -1032,15 +1175,12 @@
 
         </StackPanel>
     </DataTemplate>
-
-    
-    
-    
     
 
     <templateSelectors:DteqOCPDTemplateSelector 
                 x:Key="DteqOCPDTemplateSelector"
-                BreakerTemplate="{StaticResource BreakerTemplate}" />
+                BreakerTemplate="{StaticResource BreakerTemplate}" 
+                MvBreakerTemplate="{StaticResource BreakerTemplate_Mv}" />
     
     <!--Pd Starter Template Styles / Selector-->
     <!--ContentControl-->
@@ -1058,11 +1198,6 @@
                 </MultiDataTrigger.Setters>
 
             </MultiDataTrigger>
-
-
-            <!--<DataTrigger Binding="{Binding IsStandAlone}" Value="true">
-                <Setter Property="Visibility" Value="Collapsed"/>
-            </DataTrigger>-->
 
             <DataTrigger Binding="{Binding Path=Type}" Value="MCP_FVNR">
                 <Setter Property="ContentTemplate" Value="{StaticResource DOLStarterTemplate_Bucket}"/>
@@ -1113,6 +1248,7 @@
             x:Key="PdStarterTemplateSelector"
             EmptyTemplate="{StaticResource EmptyTemplate}" 
             BreakerTemplate="{StaticResource BreakerTemplate_Bucket}"
+            MvBreakerTemplate="{StaticResource BreakerTemplate_MvBucket}"
         
             DolTemplate="{StaticResource DOLStarterTemplate_Bucket}"
             DolTemplate_StandAlone="{StaticResource DOLStarterTemplate_StandAlone}"
