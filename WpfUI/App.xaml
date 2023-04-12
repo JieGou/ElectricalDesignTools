@@ -105,7 +105,7 @@
             
             <!--Style for hiding Non-Motor load cell content in SfDataGrid-->
             <Style TargetType="sfgrid:GridCell" x:Key="NonMotorLoadVisibilityStyle">
-                <Setter Property="BorderBrush" Value="LightGray" />
+                <Setter Property="BorderBrush" Value="{StaticResource DataGrid_Cell_BorderBrush}" />
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
                         <Setter Property="Background" Value="{StaticResource CellHighlightBrush}"/>

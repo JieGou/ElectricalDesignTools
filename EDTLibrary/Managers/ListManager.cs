@@ -551,7 +551,7 @@ namespace EDTLibrary.Managers
                         load.AreaChanged += lcs.MatchOwnerArea;
 
                         lcs.TypeModel = TypeManager.GetLcsTypeModel(lcs.TypeId);
-
+                        lcs.UpdateTypelist(load.StandAloneStarterBool);
                         
                     }
                 }

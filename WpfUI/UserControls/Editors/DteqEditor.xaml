@@ -15,7 +15,6 @@
              xmlns:helpers="clr-namespace:WpfUI.Helpers"
              
              d:DesignHeight="750" d:DesignWidth="300"
-             d:Background="AliceBlue"
              UseLayoutRounding="False">
     <UserControl.Resources>
 

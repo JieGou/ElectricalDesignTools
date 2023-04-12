@@ -197,10 +197,10 @@ public class ComponentFactory
         }
         newLcs.Category = Categories.LCS.ToString();
         newLcs.SubCategory = CctCompSubCategories.AuxComponent.ToString();
-        newLcs.Type = GetLcsType(owner);
+        
         newLcs.TypeId = int.Parse(GetLcsTypeId(owner));
         newLcs.TypeModel = TypeManager.GetLcsTypeModel(newLcs.TypeId);
-
+        newLcs.Type = TypeManager.GetLcsTypeModel(newLcs.TypeId).Type;
 
         newLcs.Owner = componentOwner;
         newLcs.OwnerId = componentOwner.Id;

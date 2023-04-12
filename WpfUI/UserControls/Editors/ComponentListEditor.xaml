@@ -223,35 +223,25 @@
                                Grid.Row="1" Grid.Column="0" 
                                Width="40"/>
                     <ComboBox  
-                                  Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
-                                  Height="20" Width="125"
-                                  Margin="0"
-                                  ItemsSource="{Binding Path=DataContext.Lcs.TypeList, 
-                                                    UpdateSourceTrigger=PropertyChanged, 
-                                                    RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                    AncestorType={x:Type UserControl}, AncestorLevel=1}}"
-                                  DisplayMemberPath="Type"
-                                      
-                                  SelectedValue="{Binding Path=DataContext.Lcs.TypeModel, 
-                                                    Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
-                                                    RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                    AncestorType={x:Type UserControl}, AncestorLevel=1}}"  
-                                      
-                                  Text="{Binding Path=DataContext.Lcs.TypeModel.Type, 
-                                                
-                                                 RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                 AncestorType={x:Type UserControl}, AncestorLevel=1}}" 
-                                                              
-                                  IsSynchronizedWithCurrentItem="False"  
-                                  ToolTip="{StaticResource LcsSelectionBug}"
-                                  ToolTipService.InitialShowDelay="50"/>
-
-                    <TextBlock Text="{Binding Path=DataContext.Lcs.TypeModel.Type, 
+                        Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
+                        Height="20" Width="125"
+                        Margin="0"
+                        ItemsSource="{Binding Path=DataContext.Lcs.TypeList, 
+                                        UpdateSourceTrigger=PropertyChanged, 
                                         RelativeSource={RelativeSource Mode=FindAncestor, 
-                                        AncestorType={x:Type UserControl}, AncestorLevel=1}}" 
-                                   Margin="10 0 0 0"
-                                   ToolTip="{StaticResource LcsSelectionBug}"
-                                   ToolTipService.InitialShowDelay="50"/>
+                                        AncestorType={x:Type UserControl}, AncestorLevel=1}}"
+                        DisplayMemberPath="Type"
+                                      
+                        SelectedValue="{Binding Path=DataContext.Lcs.TypeModel, 
+                                        Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
+                                        RelativeSource={RelativeSource Mode=FindAncestor, 
+                                        AncestorType={x:Type UserControl}, AncestorLevel=1}}"  
+                                      
+                   
+                                                              
+                        IsSynchronizedWithCurrentItem="False"  
+                        ToolTipService.InitialShowDelay="50"/>
+
                 </StackPanel>
 
             </Grid>

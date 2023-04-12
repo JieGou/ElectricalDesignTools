@@ -301,7 +301,7 @@
                                                />
 
                         <syncfusion:GridTextColumn MappingName="ConductorQty"
-                                               HeaderText="Conductors"
+                                               HeaderText="Conductors&#x0a;In Cable"
                                                Width="100"
                                                UseBindingValue="True" 
                                                FilterRowCondition="Equals"
@@ -314,7 +314,7 @@
                                                FilterRowCondition="Equals"
                                                ImmediateUpdateColumnFilter="True"/>
                         
-                        <syncfusion:GridTextColumn MappingName="TotalCables" HeaderText="Total&#x0a;Runs"
+                        <syncfusion:GridTextColumn MappingName="TotalCables" HeaderText="Total&#x0a;Cables"
                                                Width="75"
                                                UseBindingValue="True" 
                                                FilterRowCondition="Equals"
@@ -326,7 +326,13 @@
                                                FilterRowCondition="Contains"
                                                ImmediateUpdateColumnFilter="True"/>
 
-                        <syncfusion:GridTextColumn MappingName="Length"
+                        <syncfusion:GridTextColumn MappingName="Length" HeaderText="Run&#x0a;Length"
+                                               Width="75"
+                                               UseBindingValue="True" 
+                                               FilterRowCondition="LessThanOrEqual"
+                                               ImmediateUpdateColumnFilter="True"/>
+
+                        <syncfusion:GridTextColumn MappingName="TotalLength" HeaderText="Total&#x0a;Length"
                                                Width="75"
                                                UseBindingValue="True" 
                                                FilterRowCondition="LessThanOrEqual"

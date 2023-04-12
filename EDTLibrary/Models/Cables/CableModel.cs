@@ -488,6 +488,8 @@ public class CableModel : ICable
 
                 CableManager.CableSizer.SetVoltageDrop(this);
                 _length = value;
+            CalculateTotalCables();
+            TotalLength = value * TotalCables;
                 Validate(this);
 
             UndoManager.AddUndoCommand(this, nameof(Length), oldValue, _length);
@@ -497,6 +499,13 @@ public class CableModel : ICable
     }
     public double _length;
 
+    private double _totalLength;
+
+    public double TotalLength
+    {
+        get { return _totalLength; }
+        set { _totalLength = value; }
+    }
 
     public double VoltageDrop { get; set; }
     public double VoltageDropPercentage { get; set; }

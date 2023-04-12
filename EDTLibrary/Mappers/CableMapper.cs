@@ -17,17 +17,17 @@ public class CableMapper
     public CableMapper(CableModel cable)
     {
         try {
-            Id = cable.Id;
             Tag = cable.Tag;
-            Category = cable.Category;
             Source = cable.SourceModel.Tag;
             Destination = cable.DestinationModel.Tag;
             Type = cable.TypeModel.Type;
             UsageType = cable.UsageType;
             QtyParallel = cable.QtyParallel;
-            TotalRuns = cable.TotalCables;
+            TotalCables = cable.TotalCables;
+            TotalLength = cable.TotalLength;
             ConductorQty = cable.ConductorQty;
             Size = "'" + cable.Size; //  the ' is for excel formatting
+
             VoltageClass = cable.VoltageRating;
             Length = cable.Length;
             Spacing = cable.Spacing;
@@ -36,10 +36,10 @@ public class CableMapper
             DeratedAmps = cable.DeratedAmps;
             BaseAmps = cable.BaseAmps;
             AmpacityTable = cable.AmpacityTable;
+            InstallationDiagram = cable.InstallationDiagram;
+
             InstallationType = cable.InstallationType;
             IsOutdoor = cable.IsOutdoor;
-            InstallationDiagram = cable.InstallationDiagram;
-            OwnerType = cable.OwnerType;
         }
         catch (Exception) {
 
@@ -47,31 +47,31 @@ public class CableMapper
         }
     }
 
-    public int Id { get; set; }
     public string Tag { get; set; }
-    public string Category { get; set; }
     public string Source { get; set; }
     public string Destination { get; set; }
     public string Type { get; set; }
     public string UsageType { get; set; }
-    public int QtyParallel { get; set; }
-    public int TotalRuns { get; set; }
     public int ConductorQty { get; set; }
+    public int QtyParallel { get; set; }
+    public int TotalCables { get; set; }
+    
     public string Size { get; set; }
     public double VoltageClass { get; set; }
-    public double Length { get; set; }
-
-   
-    public string InstallationType { get; set; }
-    public bool IsOutdoor { get; set; }
     public double BaseAmps { get; set; }
     public double Spacing { get; set; }
     public double Derating { get; set; }
     public double DeratedAmps { get; set; }
     public double RequiredAmps { get; set; }
-    public double RequiredSizingAmps { get; set; }
-    public string AmpacityTable { get; set; }
+
+    public double Length { get; set; }
+    public double TotalLength { get; set; }
+
+    public string InstallationType { get; set; }
     public string InstallationDiagram { get; set; }
-    public string OwnerType { get; set; }
+    public bool IsOutdoor { get; set; }
+
+    public string AmpacityTable { get; set; }
+    public string Armor { get; set; }
 
 }

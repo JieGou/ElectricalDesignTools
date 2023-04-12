@@ -849,7 +849,10 @@ namespace EDTLibrary.Models.Loads
                     if (_lcsBool == true) {
                         ComponentManager.AddLcs(this, ScenarioManager.ListManager);
                         Lcs.UpdateTypelist(StandAloneStarterBool);
-                        if (ProtectionDevice.Type == StarterTypes.VSD.ToString()
+                        if (StandAloneStarterBool == true && ( StandAloneStarter.Type == StarterTypes.VSD.ToString() ||
+                                                                StandAloneStarter.Type == StarterTypes.VFD.ToString()||
+                                                                StandAloneStarter.Type == StarterTypes.RVS.ToString() ) ||
+                            ProtectionDevice.Type == StarterTypes.VSD.ToString()
                              || ProtectionDevice.Type == StarterTypes.VFD.ToString()
                              || ProtectionDevice.Type == StarterTypes.RVS.ToString()) {
 
@@ -896,11 +899,13 @@ namespace EDTLibrary.Models.Loads
                 ProtectionDeviceManager.SetProtectionDevice(ProtectionDevice);
 
                 if (Lcs!=null) {
-                        Lcs.Type = ComponentFactory.GetLcsType(this);
                         Lcs.TypeModel = TypeManager.GetLcsTypeModel(Lcs.TypeId);
-                    }
+                        Lcs.TypeId = int.Parse(ComponentFactory.GetLcsTypeId(this));
+                        Lcs.Type = TypeManager.GetLcsTypeModel(Lcs.TypeId).Type;
+                        Lcs.UpdateTypelist(_standAloneStarterBool);
+                }
 
-                    if (_standAloneStarterBool == true) {
+                if (_standAloneStarterBool == true) {
                         //PdType = "Breaker";
                         ComponentManager.AddStandAloneStarter(this, ScenarioManager.ListManager);
                         CableManager.CreateLcsAnalogCable(this, ScenarioManager.ListManager);
@@ -917,8 +922,7 @@ namespace EDTLibrary.Models.Loads
                     CableManager.UpdateLcsCableTags(this);
 
                 if (LcsBool) {
-                    Lcs.UpdateTypelist(_standAloneStarterBool);
-                    Lcs.Type = ComponentFactory.GetLcsType(this);
+                    
                 }
 
                 UndoManager.AddUndoCommand(this, nameof(StandAloneStarterBool), oldValue, _standAloneStarterBool);
