@@ -90,6 +90,10 @@ public abstract class ElectricalViewModelBase : ViewModelBase
 
     public DteqToAddValidator DteqToAddValidator { get; set; }
     public LoadToAddValidator LoadToAddValidator { get; set; }
+
+    /// <summary>
+    /// Property pane binds to this
+    /// </summary>
     public object SelectedEquipment { get; set; }
 
     public virtual ObservableCollection<IPowerConsumer> AssignedLoads { get; set; } = new ObservableCollection<IPowerConsumer> { };

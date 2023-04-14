@@ -22,7 +22,7 @@
 
                 
                 <ResourceDictionary Source="Styles/EdtColorsAndDimensions.xaml"/>
-                <ResourceDictionary Source="Styles/EdtColorsAndDimensions_Dark.xaml"/>
+                <!--<ResourceDictionary Source="Styles/EdtColorsAndDimensions_Dark.xaml"/>-->
                 <!--****************************************************************-->
 
 
@@ -33,7 +33,7 @@
 
 
                 <ResourceDictionary Source="Styles/EdtStyle_Blue.xaml"/>
-                <ResourceDictionary Source="Styles/EdtStyle_BlueDark.xaml"/>
+                <!--<ResourceDictionary Source="Styles/EdtStyle_BlueDark.xaml"/>-->
                 <!--****************************************************************-->
 
 

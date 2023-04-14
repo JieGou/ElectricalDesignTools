@@ -77,7 +77,8 @@ public partial class SL_DteqGraphicView : UserControl
         try {
 
             if (dataContext is IEquipment) {
-                OnEquipmentSelected(dataContext as IEquipment);
+                    OnEquipmentSelected(dataContext as IEquipment);
+                
             }
 
         }

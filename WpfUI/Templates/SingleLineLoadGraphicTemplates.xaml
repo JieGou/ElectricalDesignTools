@@ -359,12 +359,11 @@
                                             Style="{StaticResource PdStarterTemplateStyle}"
                                             ContentTemplateSelector="{StaticResource DteqOCPDTemplateSelector}"
                                             Margin="-6 0"
-                                            Visibility="{Binding IsMainLugsOnly, Converter={StaticResource MainLugsOnlyToVisibilityConverter}}">
-
+                                            Visibility="{Binding IsMainLugsOnly, Converter={StaticResource MainLugsOnlyToVisibilityConverter}}"
+                                            >
                             </ContentControl>
 
                             <!-- BUS-->
-
                             <ContentControl Grid.Column="1"
                                         Content="{Binding}"
                                         ContentTemplate="{StaticResource DteqBusTemplate}"  

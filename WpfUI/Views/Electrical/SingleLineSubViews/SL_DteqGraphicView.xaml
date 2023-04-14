@@ -110,7 +110,8 @@
             <SingleLineLoadGraphics:SingleLineDashedBorder/>
 
             <!--Main Breaker-->
-            <ContentControl Content="{Binding ProtectionDevice}" 
+            <ContentControl Content="{Binding }" 
+                            DataContext="{Binding ProtectionDevice}"
                         Style="{StaticResource PdStarterTemplateStyle}"
                         ContentTemplateSelector="{StaticResource DteqOCPDTemplateSelector}"
                         Visibility="{Binding IsMainLugsOnly, Converter={StaticResource MainLugsOnlyToVisibilityConverter}}"

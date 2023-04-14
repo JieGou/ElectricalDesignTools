@@ -20,6 +20,8 @@ public class DteqOCPDTemplateSelector : DataTemplateSelector
     public override DataTemplate SelectTemplate(object item, DependencyObject container)
     {
         var selectedTemplate = BreakerTemplate;
+        if (item == null) return selectedTemplate;
+
         var pd = (IProtectionDevice)item;
         var dteq = (IPowerConsumer)pd.Owner;
 

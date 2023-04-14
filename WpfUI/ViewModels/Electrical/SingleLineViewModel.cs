@@ -124,7 +124,6 @@ internal class SingleLineViewModel: ElectricalViewModelBase
             
     }
 
-    private ListCollectionView _dteqCollectionView;
     public ListCollectionView DteqCollectionView
     {
         get
@@ -155,11 +154,11 @@ internal class SingleLineViewModel: ElectricalViewModelBase
             };
         }
     }
+    private ListCollectionView _dteqCollectionView;
 
-   
+
 
     //Equipment
-    private IEquipment _selectedLoadEquipment;
     public IEquipment SelectedLoadEquipment
     {
         get { return _selectedLoadEquipment; }
@@ -173,6 +172,7 @@ internal class SingleLineViewModel: ElectricalViewModelBase
                 //_selectedLoadEquipment = compOwner;
                 _selectedLoadEquipment = comp;
             }
+          
             if (SelectedLoadEquipment is ILoad) {
                 SelectedLoad = (ILoad)_selectedLoadEquipment; 
             }
@@ -189,10 +189,10 @@ internal class SingleLineViewModel: ElectricalViewModelBase
             SelectedEquipment = _selectedLoadEquipment;
         }
     }
+    private IEquipment _selectedLoadEquipment;
 
     public bool IsSelectedLoadCable { get; set; }
 
-    private IEquipment _selectedLoadCable;
     public IEquipment SelectedLoadCable
     {
         get { return _selectedLoadCable; }
@@ -224,6 +224,7 @@ internal class SingleLineViewModel: ElectricalViewModelBase
 
         }
     }
+    private IEquipment _selectedLoadCable;
 
 
     //SelectedItems
