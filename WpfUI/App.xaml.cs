@@ -151,9 +151,9 @@ namespace WpfUI
             splashScreen.Close(TimeSpan.FromMilliseconds(150));
 
 
-
+#if !DEBUG
             ShowAuthenticationWindowAsync();
-
+#endif
             //******************************************************
 
             base.OnStartup(e);

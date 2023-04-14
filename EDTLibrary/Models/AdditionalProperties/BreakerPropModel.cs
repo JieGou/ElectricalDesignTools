@@ -26,7 +26,6 @@ public class BreakerPropModel : PropertyModelBase
     }
     private string _breakerType;
 
-
     public bool Is100PercentRated
     {
         get { return _is100PercentRated; }
@@ -48,5 +47,55 @@ public class BreakerPropModel : PropertyModelBase
         }
     }
     private bool _is100PercentRated;
+
+
+
+
+    public string MvRelayType
+    {
+        get { return _mvRelayType; }
+        set { _mvRelayType = value; }
+    }
+    private string _mvRelayType;
+
+    public int PhaseCtPrimaryRatio
+    {
+        get { return _phaseCtPrimaryRatio; }
+        set { _phaseCtPrimaryRatio = value; 
+            OnPropertyUpdated(nameof(BreakerType));
+        }
+    }
+    private int _phaseCtPrimaryRatio = 600;
+
+
+    public int PhaseCtSecondaryRatio
+    {
+        get { return _phaseCtSecondaryRatio; }
+        set { _phaseCtSecondaryRatio = value;
+            OnPropertyUpdated(nameof(BreakerType));
+        }
+    }
+    private int _phaseCtSecondaryRatio=5;
+
+
+    public int ZeroCtPrimaryRatio
+    {
+        get { return _zeroCtPrimaryRatio; }
+        set { _zeroCtPrimaryRatio = value; 
+            OnPropertyUpdated(nameof(BreakerType));
+        }
+    }
+    private int _zeroCtPrimaryRatio=50;
+
+
+    public int ZeroCtSecondaryRatio
+    {
+        get { return _zeroCtSecondaryRatio; }
+        set { _zeroCtSecondaryRatio = value;
+            OnPropertyUpdated(nameof(BreakerType));
+        }
+    }
+    private int _zeroCtSecondaryRatio=5;
+
 
 }

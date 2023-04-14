@@ -236,6 +236,7 @@
                         <ColumnDefinition Width="22"/>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
 
 
@@ -261,7 +262,7 @@
 
                             </Canvas>
                             
-                            <!--Breaeker--> 
+                            <!--Breaker--> 
                             <Border BorderBrush="{StaticResource EqGraphicColorBrush}"
                                 BorderThickness="1"
                                 Grid.Column="1"
@@ -301,12 +302,12 @@
                         Grid.Column="2"                      
                         Padding="10 50 5 0"
                         Visibility="Visible">
-                        <Border.CornerRadius>
+                        <!--<Border.CornerRadius>
                             <CornerRadius TopLeft="0"
                                       BottomLeft="0"
                                       TopRight="{StaticResource HighlightCorerRadius}"
                                       BottomRight="{StaticResource HighlightCorerRadius}"/>
-                        </Border.CornerRadius>
+                        </Border.CornerRadius>-->
 
                         <Grid Grid.Column="2" Style="{StaticResource GraphicHighlightStyle}">
                             <Grid.RowDefinitions>
@@ -332,6 +333,46 @@
                                 <Border BorderThickness="0 0 0 1"/>
                                 <TextBlock Text="{Binding FrameAmps, StringFormat={}{0:N0} AF}" />-->
                             </StackPanel>
+                        </Grid>
+                    </Border>
+                    
+                    <!--Data-->
+                    <Border BorderThickness="0"
+                        Grid.Column="3"                      
+                        Padding="10 0 5 0"
+                        Visibility="Visible">
+                        <Border.CornerRadius>
+                            <CornerRadius TopLeft="0"
+                                      BottomLeft="0"
+                                      TopRight="{StaticResource HighlightCorerRadius}"
+                                      BottomRight="{StaticResource HighlightCorerRadius}"/>
+                        </Border.CornerRadius>
+
+                        <Grid Grid.Column="2" Style="{StaticResource GraphicHighlightStyle}"
+                              Margin="-90 0 0 0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="13"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="65"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <!--Phase CT-->
+                            <TextBlock Grid.Row="1">
+                                <Run Text="{Binding PropertyModel.PhaseCtPrimaryRatio}"/>
+                                <Run Text=":"/>
+                                <Run Text="{Binding PropertyModel.PhaseCtSecondaryRatio}"/>
+                            </TextBlock>
+
+
+
+                            <!--Zero CT-->
+                            <TextBlock Grid.Row="3">
+                                <Run Text="{Binding PropertyModel.ZeroCtPrimaryRatio}"/>
+                                <Run Text=":"/>
+                                <Run Text="{Binding PropertyModel.ZeroCtSecondaryRatio}"/>
+                            </TextBlock>
                         </Grid>
                     </Border>
 

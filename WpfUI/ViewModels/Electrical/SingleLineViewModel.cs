@@ -270,7 +270,9 @@ internal class SingleLineViewModel: ElectricalViewModelBase
 
     public bool IsBusy { get; set; }
 
-
+    /// <summary>
+    /// For ordering equipment
+    /// </summary>
     public IPowerConsumer SelectedMoveableEquipment
     {
         get { return _selectedMoveableEquipment; }
