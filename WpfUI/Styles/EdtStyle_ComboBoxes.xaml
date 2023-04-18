@@ -206,7 +206,7 @@
     </Style>
 
     <Style TargetType="{x:Type ComboBox}">
-        <Setter Property="FocusVisualStyle" Value="{StaticResource ComboBoxFocusVisual}" />
+        <!--<Setter Property="FocusVisualStyle" Value="{StaticResource ComboBoxFocusVisual}" />-->
         <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}" />
         <Setter Property="Background" Value="{StaticResource ControlBackground}" />
         <Setter Property="Padding" Value="6,3,5,1" />

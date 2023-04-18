@@ -4,6 +4,7 @@ using Autodesk.AutoCAD.Interop.Common;
 using EdtLibrary.AutocadInterop.TitleBlocks;
 using EDTLibrary.Autocad.Interop;
 using EDTLibrary.AutocadInterop.Interop;
+using EDTLibrary.ErrorManagement;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Services;
 using EDTLibrary.Settings;
@@ -27,7 +28,7 @@ public partial class AutocadService
     public static AutocadHelper _acadHelper;
     public static string drawingName;
     private int _attempts;
-    private readonly int _maxAttemps = 50;
+    private const int DeleteDrawingContents_MaxAttempts = 1000;
 
     public TitleBlockImporter TitleBlockImporter { get; set; } = new TitleBlockImporter(_acadHelper);
     public ISingleLineDrawer SingleLineDrawer { get; set; } = new SingleLineDrawer_EdtV1(_acadHelper);
@@ -155,8 +156,6 @@ public partial class AutocadService
             });
 
             drawingName = "";
-            _isRunningTasks = false;
-            EdtNotificationService.CloseoPupNotification(this);
 
             return attributeList;
         }
@@ -243,8 +242,7 @@ public partial class AutocadService
             });
 
             drawingName = "";
-            _isRunningTasks = false;
-            EdtNotificationService.CloseoPupNotification(this);
+
 
         }
 
@@ -278,6 +276,8 @@ public partial class AutocadService
 
             EdtNotificationService.SendPopupNotification(this, $"Starting Autocad");
             await StartAutocadAsync();
+            ErrorHelper.Log("Started Autocad");
+
             EdtNotificationService.CloseoPupNotification(this);
 
             _acadHelper.AddDrawing(drawingName);
@@ -287,16 +287,18 @@ public partial class AutocadService
             await Task.Run(() => {
                 PanelScheduleDrawer.AcadHelper = _acadHelper;
                 PanelScheduleDrawer.DrawPanelSchedule(dteq, 1.5);
+                ErrorHelper.Log("Draw Panel Schedule");
+
                 _acadHelper.AcadApp.ZoomExtents();
             });
 
             drawingName = "";
-            _isRunningTasks = false;
-            EdtNotificationService.CloseoPupNotification(this);
 
         }
 
         catch (Exception ex) {
+
+            ErrorHelper.Log("Retry Panel Schedule");
 
             Retry(dteq, ex);
 
@@ -305,6 +307,8 @@ public partial class AutocadService
         finally {
             _isRunningTasks = false;
             EdtNotificationService.CloseoPupNotification(this);
+            ErrorHelper.Log("Finally Panel Schedule");
+
         }
     }
 
@@ -322,6 +326,10 @@ public partial class AutocadService
         }
 
         else if (ex.Message.Contains("rejected")) { //erase partial drawing and retry
+            ErrorHelper.Log("Rejected error");
+
+            Task.Delay(500); // wait for acad to not be busy
+
             if (_acadHelper.AcadDoc != null) {
                 DeleteDrawingContents();
             }
@@ -329,6 +337,8 @@ public partial class AutocadService
         }
 
         else if (ex.Message.Contains("busy")) {
+            ErrorHelper.Log("Busy error");
+
             Task.Delay(500); // wait for acad to not be busy
             if (_acadHelper.AcadDoc != null) {
                 DeleteDrawingContents();
@@ -337,6 +347,10 @@ public partial class AutocadService
         }
 
         else if (ex.Message.Contains("instance")) {
+            ErrorHelper.Log("instance error");
+
+            Task.Delay(500); // wait for acad to not be busy
+
             if (_acadHelper.AcadDoc != null) {
                 DeleteDrawingContents();
             }
@@ -344,7 +358,10 @@ public partial class AutocadService
         }
 
         else if (ex.Message.Contains("dispatch")) {
-            //NotificationHandler.ShowErrorMessage(ex);
+            ErrorHelper.Log("dispatch error");
+
+            Task.Delay(500); // wait for acad to not be busy
+
             if (_acadHelper.AcadDoc != null) {
                 DeleteDrawingContents();
             }
@@ -356,10 +373,13 @@ public partial class AutocadService
     }
     private void DeleteDrawingContents()
     {
-        int _maxDeleteAttempts = _maxAttemps;
+        int _maxDeleteAttempts = DeleteDrawingContents_MaxAttempts;
         int _deleteAttempts = 0;
         try {
+            ErrorHelper.Log("Delete Drawing Contents");
+
             Task.Delay(500);
+
             dynamic sSet = _acadHelper.AcadDoc.SelectionSets.Add("sSetAll");
             sSet.Select(AcSelect.acSelectionSetAll);
             foreach (dynamic item in sSet) {
@@ -368,11 +388,18 @@ public partial class AutocadService
             sSet.Clear(); //clear selection sets in case this error happens more than once
         }
         catch (Exception ex) {
-            if (ex.Message.Contains("rejected") && _deleteAttempts <= _maxDeleteAttempts) {
+            
+            //if (ex.Message.Contains("rejected") && _deleteAttempts <= _maxDeleteAttempts) {
+
+            if (_deleteAttempts <= _maxDeleteAttempts) {
+                ErrorHelper.Log($"Delete Drawing Contents error {ex.Message}");
                 _deleteAttempts++;
+                Task.Delay(500);
+
                 DeleteDrawingContents();
             }
             else {
+                ErrorHelper.Log($"Max Delete attempts {_deleteAttempts} Reached");
                 throw;
             }
         }

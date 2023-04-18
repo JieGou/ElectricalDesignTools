@@ -751,7 +751,7 @@ public abstract class ElectricalViewModelBase : ViewModelBase
     public void DeleteLoad(object selectedLoadObject)
     {
 
-        if (SelectedLoad == null || SelectedLoad is DistributionEquipment) return;
+        if (SelectedLoad == null) return;
 
         var message = $"Delete load {SelectedLoad.Tag}? \n\nThis cannot be undone.";
 
@@ -764,23 +764,29 @@ public abstract class ElectricalViewModelBase : ViewModelBase
         {
             if (SelectedLoads.Count <= 1)
             {
-                DeleteSingleLoadAsync(selectedLoadObject);
+                if (selectedLoadObject is DistributionEquipment) {
+                    DeleteSingleDteqAsync(selectedLoadObject);
+                }
+                else {
+                    DeleteSingleLoadAsync(selectedLoadObject);
+
+                }
             }
             else
             {
                 DeleteManyLoadsAsync();
             }
+            _ViewStateManager.OnElectricalViewUpdated();
         }
     }
 
-   
+
 
     public async Task DeleteSingleLoadAsync(object selectedLoadObject)
     {
         if (selectedLoadObject == null) return;
 
-        try
-        {
+        try {
             if (selectedLoadObject is LoadModel) {
                 LoadModel load = (LoadModel)selectedLoadObject;
 
@@ -799,30 +805,65 @@ public abstract class ElectricalViewModelBase : ViewModelBase
                 DeleteLoadCircuit(load);
             }
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
 
-            if (ex.Message.ToLower().Contains("sql"))
-            {
+            if (ex.Message.ToLower().Contains("sql")) {
                 NotificationHandler.ShowErrorMessage(ex);
             }
-            else
-            {
+            else {
                 NotificationHandler.ShowErrorMessage(ex);
             }
             throw;
         }
     }
 
-    
+    public async Task DeleteSingleDteqAsync(object selectedLoadObject)
+    {
+        if (selectedLoadObject == null) return;
+
+        try {
+            if (selectedLoadObject is DistributionEquipment) {
+                var dteq = DteqFactory.Recast(selectedLoadObject);
+
+                if (dteq.FedFrom.Type == DteqTypes.CDP.ToString() || dteq.FedFrom.Type == DteqTypes.DPN.ToString()) {
+                    DpnCircuitManager.DeleteLoad((IDpn)dteq.FedFrom, dteq, ListManager);
+                }
+                await DteqManager.DeleteDteqAsync(dteq, _listManager);
+                //var loadId = await LoadManager.DeleteLoad(selectedLoadObject, _listManager);
+                //var loadToRemove = AssignedLoads.FirstOrDefault(load => load.Id == loadId);
+                AssignedLoads.Remove(dteq);
+
+                LoadToAddValidator.ResetTag();
+            }
+            else if (selectedLoadObject is LoadCircuit) {
+                LoadCircuit load = (LoadCircuit)selectedLoadObject;
+                DeleteLoadCircuit(load);
+            }
+        }
+        catch (Exception ex) {
+
+            if (ex.Message.ToLower().Contains("sql")) {
+                NotificationHandler.ShowErrorMessage(ex);
+            }
+            else {
+                NotificationHandler.ShowErrorMessage(ex);
+            }
+            throw;
+        }
+    }
 
     private async Task DeleteManyLoadsAsync()
     {
 
 
+        var selectedDteq = new ObservableCollection<IDteq>();
         var selectedLoads = new ObservableCollection<LoadModel>();
         foreach (var item in SelectedLoads) {
-            if (item is LoadModel) {
+            if (item is DistributionEquipment) {
+                var dteq = DteqFactory.Recast(item);
+                selectedDteq.Add(dteq);
+            }
+            else if (item is LoadModel) {
                 var load = (LoadModel)item;
                 selectedLoads.Add(load);
             }
@@ -830,6 +871,11 @@ public abstract class ElectricalViewModelBase : ViewModelBase
                 var loadCircuit = (LoadCircuit)item;
                 DeleteLoadCircuit(loadCircuit);
             }
+        }
+        foreach (var dteq2 in selectedDteq) {
+            await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
+                DeleteSingleDteqAsync(dteq2);
+            }));
         }
         foreach (var load2 in selectedLoads) {
             await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {

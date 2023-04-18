@@ -173,8 +173,8 @@ internal class SingleLineViewModel: ElectricalViewModelBase
                 _selectedLoadEquipment = comp;
             }
           
-            if (SelectedLoadEquipment is ILoad) {
-                SelectedLoad = (ILoad)_selectedLoadEquipment; 
+            if (SelectedLoadEquipment is IPowerConsumer) {
+                SelectedLoad = (IPowerConsumer)_selectedLoadEquipment; 
             }
 
             if (_selectedLoadEquipment is IPowerConsumer) {

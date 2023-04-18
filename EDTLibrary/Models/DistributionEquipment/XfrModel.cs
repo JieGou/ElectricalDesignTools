@@ -23,7 +23,9 @@ public class XfrModel : DistributionEquipment
 
     public override void CalculateLoading(string propertyName = "")
     {
-        SecondaryFla = Math.Round(Size * 1000 / LoadVoltageType.Voltage / Math.Sqrt(LoadVoltageType.Phase));
+        if (LoadVoltageType != null) {
+            SecondaryFla = Math.Round(Size * 1000 / LoadVoltageType.Voltage / Math.Sqrt(LoadVoltageType.Phase)); 
+        }
         base.CalculateLoading();
     }
 

@@ -70,7 +70,7 @@
                     Grid.Row="0" Grid.Column="0" 
                     HorizontalAlignment="Right"
                                />
-            <TextBox Text="{Binding Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" d:Text="Tag"
+            <TextBox Text="{Binding Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=500}" d:Text="Tag"
                     Grid.Row="0" Grid.Column="1"
                     MinWidth="100"
                     Style="{StaticResource SummaryValue_TextBoxStyle}"/>
