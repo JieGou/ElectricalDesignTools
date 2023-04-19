@@ -21,7 +21,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace WpfUI.Services;
 
-public delegate Task DrawCommandDelegate(IDteq dteq, bool addNewDrawing);
+public delegate void DrawCommandDelegate(IDteq dteq, bool addNewDrawing);
 public partial class AutocadService
 {
 
@@ -109,7 +109,7 @@ public partial class AutocadService
     #endregion
 
 
-    private async Task StartAutocadAsync()
+    private void StartAutocadAsync()
     {
         try {
 
@@ -121,9 +121,11 @@ public partial class AutocadService
 
             _acadHelper = new AutocadHelper();
 
-            await Task.Run(() => {
-                _acadHelper.StartAutocad();
-            });
+            _acadHelper.StartAutocad();
+
+            //await Task.Run(() => {
+            //    _acadHelper.StartAutocad();
+            //});
 
         }
         catch (Exception ex) {
@@ -143,17 +145,22 @@ public partial class AutocadService
 
         try {
             EdtNotificationService.SendPopupNotification(this, $"Starting Autocad");
-            await StartAutocadAsync();
+            StartAutocadAsync();
             EdtNotificationService.CloseoPupNotification(this);
 
             _acadHelper.AddDrawing(drawingName);
             drawingName = _acadHelper.DocName;
-           
-            await Task.Run(() => {
-                TitleBlockImporter.AcadHelper = _acadHelper;
-                attributeList = TitleBlockImporter.ImportTitleBlock(blockPath);
-                _acadHelper.AcadApp.ZoomExtents();
-            });
+
+
+            TitleBlockImporter.AcadHelper = _acadHelper;
+            attributeList = TitleBlockImporter.ImportTitleBlock(blockPath);
+            _acadHelper.AcadApp.ZoomExtents();
+
+            //await Task.Run(() => {
+            //    TitleBlockImporter.AcadHelper = _acadHelper;
+            //    attributeList = TitleBlockImporter.ImportTitleBlock(blockPath);
+            //    _acadHelper.AcadApp.ZoomExtents();
+            //});
 
             drawingName = "";
 
@@ -208,7 +215,7 @@ public partial class AutocadService
     }
 
 
-    public async Task CreateSingleLine(IDteq dteq)
+    public void CreateSingleLine(IDteq dteq)
     {
         drawCommand = new DrawCommandDelegate(DrawSingleLineAsync);
 
@@ -216,10 +223,13 @@ public partial class AutocadService
             EdtNotificationService.SendPopupNotification(this, $"Autocad is busy");
         }
         else {
-            await DrawSingleLineAsync(dteq);
+            StartAutocadAsync();
+            DrawSingleLineAsync(dteq);
+            _acadHelper.AcadApp.Visible = true;
+
         }
     }
-    public async Task DrawSingleLineAsync(IDteq dteq, bool newDrawing = true)
+    public void DrawSingleLineAsync(IDteq dteq, bool newDrawing = true)
     {
         try {
             _isRunningTasks = true;
@@ -227,7 +237,7 @@ public partial class AutocadService
 
 
             EdtNotificationService.SendPopupNotification(this, $"Starting Autocad");
-            await StartAutocadAsync();
+            StartAutocadAsync();
             EdtNotificationService.CloseoPupNotification(this);
 
 
@@ -235,11 +245,15 @@ public partial class AutocadService
             drawingName = _acadHelper.DocName;
             EdtNotificationService.SendPopupNotification(this, $"Creating drawing for {dteq.Tag}");
 
-            await Task.Run(() => {
-                SingleLineDrawer.AcadHelper = _acadHelper;
-                SingleLineDrawer.DrawSingleLine(dteq, 1.5);
-                _acadHelper.AcadApp.ZoomExtents();
-            });
+            SingleLineDrawer.AcadHelper = _acadHelper;
+            SingleLineDrawer.DrawSingleLine(dteq, 1.5);
+            _acadHelper.AcadApp.ZoomExtents();
+
+            //await Task.Run(() => {
+            //    SingleLineDrawer.AcadHelper = _acadHelper;
+            //    SingleLineDrawer.DrawSingleLine(dteq, 1.5);
+            //    _acadHelper.AcadApp.ZoomExtents();
+            //});
 
             drawingName = "";
 
@@ -256,7 +270,7 @@ public partial class AutocadService
     }
 
 
-    public async Task CreatePanelSchedule(IDteq dteq)
+    public void CreatePanelSchedule(IDteq dteq)
     {
         drawCommand = new DrawCommandDelegate(DrawPanelScheduleAsync);
 
@@ -264,10 +278,14 @@ public partial class AutocadService
             EdtNotificationService.SendPopupNotification(this, $"Autocad is busy");
         }
         else {
-            await DrawPanelScheduleAsync(dteq);
+
+            StartAutocadAsync();
+            DrawPanelScheduleAsync(dteq);
+            _acadHelper.AcadApp.Visible = true;
+
         }
     }
-    public async Task DrawPanelScheduleAsync(IDteq dteq, bool newDrawing = true)
+    public void DrawPanelScheduleAsync(IDteq dteq, bool newDrawing = true)
     {
         try {
             _isRunningTasks = true;
@@ -275,7 +293,7 @@ public partial class AutocadService
 
 
             EdtNotificationService.SendPopupNotification(this, $"Starting Autocad");
-            await StartAutocadAsync();
+            StartAutocadAsync();
             ErrorHelper.Log("Started Autocad");
 
             EdtNotificationService.CloseoPupNotification(this);
@@ -284,13 +302,21 @@ public partial class AutocadService
             drawingName = _acadHelper.DocName;
             EdtNotificationService.SendPopupNotification(this, $"Creating drawing for {dteq.Tag}");
 
-            await Task.Run(() => {
-                PanelScheduleDrawer.AcadHelper = _acadHelper;
-                PanelScheduleDrawer.DrawPanelSchedule(dteq, 1.5);
-                ErrorHelper.Log("Draw Panel Schedule");
 
-                _acadHelper.AcadApp.ZoomExtents();
-            });
+
+            PanelScheduleDrawer.AcadHelper = _acadHelper;
+            PanelScheduleDrawer.DrawPanelSchedule(dteq, 1.5);
+            ErrorHelper.Log("Draw Panel Schedule");
+
+            _acadHelper.AcadApp.ZoomExtents();
+
+            //await Task.Run(() => {
+            //    PanelScheduleDrawer.AcadHelper = _acadHelper;
+            //    PanelScheduleDrawer.DrawPanelSchedule(dteq, 1.5);
+            //    ErrorHelper.Log("Draw Panel Schedule");
+
+            //    _acadHelper.AcadApp.ZoomExtents();
+            //});
 
             drawingName = "";
 

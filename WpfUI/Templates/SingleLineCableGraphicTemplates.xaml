@@ -83,14 +83,18 @@
 
                             <!--Cable Size-->
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding QtyParallel}" />
-                                <TextBlock Text="x #" Margin="0"/>
+                                <TextBlock Text="{Binding TotalCables}" />
+                                <TextBlock Text=" x " Margin="0"/>
 
                                 <TextBlock Text="{Binding Size}" />
                             </StackPanel>
+                            <TextBlock Text="{Binding Type}" Margin="10 0 0 0"/>
 
-                            <!--Cable Type-->
-                            <TextBlock Text="{Binding Type}" />
+                            <StackPanel Orientation="Horizontal">
+                                <TextBox Text="{Binding Length}" Style="{StaticResource SingleLineTextBox}" Margin="7 0 0 0" />
+                                <TextBlock Text="m" VerticalAlignment="Center" />
+                            </StackPanel>
+
                         </StackPanel>
                     </Border>
 

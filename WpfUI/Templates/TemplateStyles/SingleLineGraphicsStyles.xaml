@@ -32,8 +32,13 @@
                   BottomRight="{StaticResource HighlightCorerRadius}" 
                   BottomLeft="{StaticResource HighlightCorerRadius}" />
 
-    
-    
+    <Style TargetType="TextBox" x:Key="SingleLineTextBox"  BasedOn="{StaticResource {x:Type TextBox}}">
+        <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="Background"  Value="Transparent"/>
+        <Setter Property="BorderBrush"  Value="Transparent"/>
+    </Style>
+
     <Style TargetType="TextBlock">
         <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}"/>
         <Setter Property="Margin" Value="0"/>

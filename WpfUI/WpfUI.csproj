@@ -295,6 +295,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>AppSettings.settings</DependentUpon>
     </Compile>
+    <Compile Update="Services\AutocadService.cs">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Compile>
     <Compile Update="Templates\SingleLineLoadGraphics\SingleLineDashedBorder_Bound.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
