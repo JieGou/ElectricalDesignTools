@@ -1,11 +1,29 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net4.8</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
+
+	  <StartAction>Program</StartAction>
+	  <StartProgram>C:\Program Files\Autodesk\AutoCAD 2017\acad.exe</StartProgram>
+	  <StartArguments>/nologo /b "C:\C - Visual Studio Projects\Electrical Design Tools\AutoCadTest\bin\Debug\net6.0\start.scr"</StartArguments>
+	  
   </PropertyGroup>
 
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+		<DebugSymbols>true</DebugSymbols>
+		<DebugType>full</DebugType>
+		<Optimize>false</Optimize>
+		<OutputPath>bin\Debug\</OutputPath>
+		<DefineConstants>DEBUG;TRACE</DefineConstants>
+		<ErrorReport>prompt</ErrorReport>
+		<WarningLevel>4</WarningLevel>
+		<StartAction>Program</StartAction>
+		<StartProgram>C:\Program Files\Autodesk\AutoCAD 2017\acad.exe</StartProgram>
+		<StartArguments>/nologo /b "C:\C - Visual Studio Projects\Electrical Design Tools\AutoCadTest\bin\Debug\net6.0\start.scr"</StartArguments>
+	</PropertyGroup>
+	
   <ItemGroup>
     <Reference Include="accoremgd">
       <HintPath>..\..\..\Program Files\Autodesk\AutoCAD 2017\accoremgd.dll</HintPath>
@@ -16,6 +34,12 @@
     <Reference Include="Acmgd">
       <HintPath>..\..\..\Program Files\Autodesk\AutoCAD 2017\acmgd.dll</HintPath>
     </Reference>
+  </ItemGroup>
+	
+  <ItemGroup>
+    <None Update="start.scr">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

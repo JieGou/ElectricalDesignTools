@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "AutoCadTest": {
+      "commandName": "Project",
+      "workingDirectory": "C:\\C - Visual Studio Projects\\Electrical Design Tools\\AutoCadTest\\bin\\Debug\\net6.0\\en-US"
+    }
+  }
+}

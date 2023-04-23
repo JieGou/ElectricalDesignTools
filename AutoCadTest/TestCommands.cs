@@ -1,15 +1,23 @@
 ﻿using Autodesk.AutoCAD.ApplicationServices;
-
 using Autodesk.AutoCAD.DatabaseServices;
-
 using Autodesk.AutoCAD.EditorInput;
-
 using Autodesk.AutoCAD.Runtime;
-using System;
-namespace ExtractObjects
+
+
+namespace AutoCadTest
 {
     public class Commands
     {
+        [CommandMethod("TEST")]
+        public void Test()
+        {
+            var doc = Application.DocumentManager.MdiActiveDocument;
+            var db = doc.Database;
+            var ed = doc.Editor;
+            using (var tr = db.TransactionManager.StartTransaction()) {
+                tr.Commit();
+            }
+        }
         [CommandMethod("EOFTEST")]
 
         static public void ExtractObjectsFromFile()
