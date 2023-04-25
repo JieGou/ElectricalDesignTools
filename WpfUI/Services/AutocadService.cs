@@ -28,7 +28,7 @@ public partial class AutocadService
     public static AutocadHelper _acadHelper;
     public static string drawingName;
     private int _attempts;
-    private const int DeleteDrawingContents_MaxAttempts = 1000;
+    private const int DeleteDrawingContents_MaxAttempts = 100;
 
     public TitleBlockImporter TitleBlockImporter { get; set; } = new TitleBlockImporter(_acadHelper);
     public ISingleLineDrawer SingleLineDrawer { get; set; } = new SingleLineDrawer_EdtV1(_acadHelper);
@@ -138,6 +138,17 @@ public partial class AutocadService
         }
     }
 
+    public static void WaitForAcadIsQuiescent(dynamic acadApp)
+    {
+        while (true) {
+            try {
+                dynamic state = acadApp.GetAcadState();
+                if (state.IsQuiescent)
+                    break;
+            }
+            catch { }
+        }
+    }
 
     public async Task<List<CadAttribute>> ImportTitleBlockAsync(string blockPath) 
     {
@@ -152,15 +163,15 @@ public partial class AutocadService
             drawingName = _acadHelper.DocName;
 
 
-            TitleBlockImporter.AcadHelper = _acadHelper;
-            attributeList = TitleBlockImporter.ImportTitleBlock(blockPath);
-            _acadHelper.AcadApp.ZoomExtents();
+            //TitleBlockImporter.AcadHelper = _acadHelper;
+            //attributeList = TitleBlockImporter.ImportTitleBlock(blockPath);
+            //_acadHelper.AcadApp.ZoomExtents();
 
-            //await Task.Run(() => {
-            //    TitleBlockImporter.AcadHelper = _acadHelper;
-            //    attributeList = TitleBlockImporter.ImportTitleBlock(blockPath);
-            //    _acadHelper.AcadApp.ZoomExtents();
-            //});
+            await Task.Run(() => {
+                TitleBlockImporter.AcadHelper = _acadHelper;
+                attributeList = TitleBlockImporter.ImportTitleBlock(blockPath);
+                _acadHelper.AcadApp.ZoomExtents();
+            });
 
             drawingName = "";
 

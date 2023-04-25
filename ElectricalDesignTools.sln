@@ -18,6 +18,8 @@ Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Edt_Installer", "EdtInstall
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutocadLibrary", "D:\My Drive\Programming\Visual Studio Projects\AutoCadInterop\Marshal2\AutocadLibrary.csproj", "{DCF42A65-EAF9-4C03-B922-561D64AADB22}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoCadPlugin", "AutoCadPlugin\AutoCadPlugin.csproj", "{96F72C6E-374A-4B84-9B99-91448BC6E341}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		All|Any CPU = All|Any CPU
@@ -120,6 +122,24 @@ Global
 		{DCF42A65-EAF9-4C03-B922-561D64AADB22}.Release|x64.Build.0 = Release|Any CPU
 		{DCF42A65-EAF9-4C03-B922-561D64AADB22}.Release|x86.ActiveCfg = Release|Any CPU
 		{DCF42A65-EAF9-4C03-B922-561D64AADB22}.Release|x86.Build.0 = Release|Any CPU
+		{96F72C6E-374A-4B84-9B99-91448BC6E341}.All|Any CPU.ActiveCfg = Debug|Any CPU
+		{96F72C6E-374A-4B84-9B99-91448BC6E341}.All|Any CPU.Build.0 = Debug|Any CPU
+		{96F72C6E-374A-4B84-9B99-91448BC6E341}.All|x64.ActiveCfg = Debug|Any CPU
+		{96F72C6E-374A-4B84-9B99-91448BC6E341}.All|x64.Build.0 = Debug|Any CPU
+		{96F72C6E-374A-4B84-9B99-91448BC6E341}.All|x86.ActiveCfg = Debug|Any CPU
+		{96F72C6E-374A-4B84-9B99-91448BC6E341}.All|x86.Build.0 = Debug|Any CPU
+		{96F72C6E-374A-4B84-9B99-91448BC6E341}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96F72C6E-374A-4B84-9B99-91448BC6E341}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96F72C6E-374A-4B84-9B99-91448BC6E341}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{96F72C6E-374A-4B84-9B99-91448BC6E341}.Debug|x64.Build.0 = Debug|Any CPU
+		{96F72C6E-374A-4B84-9B99-91448BC6E341}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{96F72C6E-374A-4B84-9B99-91448BC6E341}.Debug|x86.Build.0 = Debug|Any CPU
+		{96F72C6E-374A-4B84-9B99-91448BC6E341}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96F72C6E-374A-4B84-9B99-91448BC6E341}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96F72C6E-374A-4B84-9B99-91448BC6E341}.Release|x64.ActiveCfg = Release|Any CPU
+		{96F72C6E-374A-4B84-9B99-91448BC6E341}.Release|x64.Build.0 = Release|Any CPU
+		{96F72C6E-374A-4B84-9B99-91448BC6E341}.Release|x86.ActiveCfg = Release|Any CPU
+		{96F72C6E-374A-4B84-9B99-91448BC6E341}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

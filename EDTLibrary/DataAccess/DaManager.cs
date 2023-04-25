@@ -3,6 +3,7 @@ using EdtLibrary.Models.TypeProperties;
 using EDTLibrary.LibraryData;
 using EDTLibrary.LibraryData.Cables;
 using EDTLibrary.LibraryData.TypeModels;
+using EDTLibrary.Managers;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Components;
@@ -253,6 +254,15 @@ public class DaManager {
             //prjDb.UpsertRecord<CableModel>((CableModel)source, GlobalConfig.CableTable, NoSaveLists.PowerCableNoSaveList);
             PrjDb.UpsertRecord<CableModel>((CableModel)source, GlobalConfig.CableTable, NoSaveLists.PowerCableNoSaveList);
         }
+    }
+
+    public static async Task SaveAllPowerCablesAsync(ListManager listManager)
+    {
+        await Task.Run(() => {
+            foreach (var cable in listManager.CableList) {
+                PrjDb.UpsertRecord<CableModel>((CableModel)cable, GlobalConfig.CableTable, NoSaveLists.PowerCableNoSaveList);
+            }
+        });
     }
 
     public static void OnRacewayPropertyUpdated(object source, EventArgs e)

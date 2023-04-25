@@ -254,13 +254,7 @@ public abstract class ElectricalViewModelBase : ViewModelBase
 
             await Task.Run(() => {
 
-                foreach (var load in _listManager.LoadList) {
-                    load.PowerCable.OnPropertyUpdated();
-                }
-
-                foreach (var dteq in _listManager.IDteqList) {
-                    dteq.PowerCable.OnPropertyUpdated();
-                }
+                DaManager.SaveAllPowerCablesAsync(_listManager);
 
             });
 

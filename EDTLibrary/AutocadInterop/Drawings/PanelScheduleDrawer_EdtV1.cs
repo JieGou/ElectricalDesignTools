@@ -46,11 +46,14 @@ public class PanelScheduleDrawer_EdtV1 : IPanelScheduleDrawer
         _insertionPoint[2] = 0;
 
         try {
-
+            AcadHelper.WaitForAcadIsQuiescent(AcadHelper.AcadApp);
             InsertMainBlock(dteq, _insertionPoint);
 
+
+            AcadHelper.WaitForAcadIsQuiescent(AcadHelper.AcadApp);
             InsertBreakers(dteq, _insertionPoint);
 
+            AcadHelper.WaitForAcadIsQuiescent(AcadHelper.AcadApp);
             InsertCircuits(dteq, _insertionPoint);
 
         }
@@ -83,6 +86,8 @@ public class PanelScheduleDrawer_EdtV1 : IPanelScheduleDrawer
         string visbilityState = "Phase A"; //EdtProjectSettings.OverloadGraphicType;
 
         dynamic blockProps = acadBlock.GetDynamicBlockProperties();
+
+        AcadHelper.WaitForAcadIsQuiescent(AcadHelper.AcadApp);
         foreach (dynamic blockProp in blockProps) {
 
             if (blockProp.PropertyName == "Panel Phasing") {
@@ -104,6 +109,8 @@ public class PanelScheduleDrawer_EdtV1 : IPanelScheduleDrawer
         dynamic blockAtts = acadBlock.GetAttributes();
 
         AcadAttributeReference attr;
+
+        AcadHelper.WaitForAcadIsQuiescent(AcadHelper.AcadApp);
         foreach (dynamic att in blockAtts) {
             switch (att.TagString) {
                 case "PANEL_TAG":
@@ -171,6 +178,7 @@ public class PanelScheduleDrawer_EdtV1 : IPanelScheduleDrawer
 
         insertionPoint[0] = startX;
 
+            AcadHelper.WaitForAcadIsQuiescent(AcadHelper.AcadApp);
         for (int i = 1; i < ((DpnModel)dteq).CircuitCount + 1; i += 2) {
 
             acadBlock = AcadHelper.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, Xscale, Yscale, Zscale, 0);
@@ -179,6 +187,9 @@ public class PanelScheduleDrawer_EdtV1 : IPanelScheduleDrawer
             string visbilityState = "Phase A"; //EdtProjectSettings.OverloadGraphicType;
 
             dynamic blockProps = acadBlock.GetDynamicBlockProperties();
+
+
+            AcadHelper.WaitForAcadIsQuiescent(AcadHelper.AcadApp);
             foreach (dynamic blockProp in blockProps) {
 
                 if (blockProp.PropertyName == "Phase Connection") {
@@ -210,6 +221,7 @@ public class PanelScheduleDrawer_EdtV1 : IPanelScheduleDrawer
 
         insertionPoint[0] = startX;
 
+            AcadHelper.WaitForAcadIsQuiescent(AcadHelper.AcadApp);
         for (int i = 1; i < ((DpnModel)dteq).CircuitCount + 1; i += 2) {
 
             acadBlock = AcadHelper.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, Xscale, Yscale, Zscale, 0);
@@ -218,6 +230,7 @@ public class PanelScheduleDrawer_EdtV1 : IPanelScheduleDrawer
             string visbilityState = "Single Phase"; //EdtProjectSettings.OverloadGraphicType;
 
             dynamic blockProps = acadBlock.GetDynamicBlockProperties();
+            AcadHelper.WaitForAcadIsQuiescent(AcadHelper.AcadApp);
             foreach (dynamic blockProp in blockProps) {
                 if (blockProp.PropertyName == "Phase Connection") {
                     blockProp.Value = visbilityState;
@@ -239,6 +252,7 @@ public class PanelScheduleDrawer_EdtV1 : IPanelScheduleDrawer
 
         insertionPoint[0] = startX;
 
+            AcadHelper.WaitForAcadIsQuiescent(AcadHelper.AcadApp);
         for (int i = 1; i < ((DpnModel)dteq).CircuitCount + 1; i += 2) {
 
             acadBlock = AcadHelper.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, Xscale, Yscale, Zscale, 0);
@@ -247,6 +261,7 @@ public class PanelScheduleDrawer_EdtV1 : IPanelScheduleDrawer
             string visbilityState = "Phase A"; //EdtProjectSettings.OverloadGraphicType;
 
             dynamic blockProps = acadBlock.GetDynamicBlockProperties();
+            AcadHelper.WaitForAcadIsQuiescent(AcadHelper.AcadApp);
             foreach (dynamic blockProp in blockProps) {
 
                 if (blockProp.PropertyName == "Phase Connection") {
@@ -316,6 +331,8 @@ public class PanelScheduleDrawer_EdtV1 : IPanelScheduleDrawer
         blockPath = sourcePath + blockName;
         var cctCount = panel.LeftCircuits.Count;
 
+
+        AcadHelper.WaitForAcadIsQuiescent(AcadHelper.AcadApp);
         foreach (var load in panel.LeftCircuits) {
             PopulateCircuits(insertionPoint, Xscale, Yscale, Zscale, blockPath, out acadBlock, out blockAtts, load);
 
@@ -339,7 +356,10 @@ public class PanelScheduleDrawer_EdtV1 : IPanelScheduleDrawer
         blockName = "DP_CctRowRight" + ".dwg";
         blockPath = sourcePath + blockName;
         cctCount = panel.RightCircuits.Count;
-        foreach (var load in panel.RightCircuits) {
+        
+        
+        AcadHelper.WaitForAcadIsQuiescent(AcadHelper.AcadApp);
+        foreach (var load in panel.RightCircuits){
 
             PopulateCircuits(insertionPoint, Xscale, Yscale, Zscale, blockPath, out acadBlock, out blockAtts, load);
 
@@ -365,11 +385,16 @@ public class PanelScheduleDrawer_EdtV1 : IPanelScheduleDrawer
     {
         acadBlock = null;
         blockAtts = null;
+
+        AcadHelper.WaitForAcadIsQuiescent(AcadHelper.AcadApp);
         for (int i = 0; i < load.VoltageType.Poles; i++) {
 
             if (i == 0 && load.VoltageType.Poles != 3 || load.VoltageType.Poles == 3 && i == 1) {
                 acadBlock = AcadHelper.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, Xscale, Yscale, Zscale, 0);
                 blockAtts = acadBlock.GetAttributes();
+
+
+                AcadHelper.WaitForAcadIsQuiescent(AcadHelper.AcadApp);
                 foreach (dynamic att in blockAtts) {
                     switch (att.TagString) {
 
@@ -417,6 +442,8 @@ public class PanelScheduleDrawer_EdtV1 : IPanelScheduleDrawer
                 //multi pole rows
                 acadBlock = AcadHelper.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, Xscale, Yscale, Zscale, 0);
                 blockAtts = acadBlock.GetAttributes();
+
+                AcadHelper.WaitForAcadIsQuiescent(AcadHelper.AcadApp);
                 foreach (dynamic att in blockAtts) {
                     switch (att.TagString) {
 
