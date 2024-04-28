@@ -16,7 +16,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExcelLibraryCore", "ExcelLi
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Edt_Installer", "EdtInstaller\EdtInstaller.vdproj", "{5B764C48-BE9C-4D88-BDA1-7135FF37AB25}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutocadLibrary", "D:\My Drive\Programming\Visual Studio Projects\AutoCadInterop\Marshal2\AutocadLibrary.csproj", "{DCF42A65-EAF9-4C03-B922-561D64AADB22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutocadLibrary", "..\AutoCAD.Net\AutoCADLibrary\AutoCADLibrary\AutoCADLibrary.csproj", "{DCF42A65-EAF9-4C03-B922-561D64AADB22}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoCadPlugin", "AutoCadPlugin\AutoCadPlugin.csproj", "{96F72C6E-374A-4B84-9B99-91448BC6E341}"
 EndProject

@@ -3,6 +3,11 @@
     "AutoCadTest": {
       "commandName": "Project",
       "workingDirectory": "C:\\C - Visual Studio Projects\\Electrical Design Tools\\AutoCadTest\\bin\\Debug\\net6.0\\en-US"
+    },
+    "配置文件 1": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Program Files\\Autodesk\\AutoCAD 2016\\acad.exe",
+      "commandLineArgs": "/nologo /b \"start.src\""
     }
   }
 }
